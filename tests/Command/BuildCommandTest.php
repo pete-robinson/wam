@@ -29,20 +29,66 @@ class BuildCommandTest extends WamTestCase
 		$this->command = $this->application->find('wam:build');
 
 		$this->tester = new CommandTester($this->command);
+	}
+
+	/**
+	 * Text Execute
+	 * @return void
+	 **/
+	public function testExecute()
+	{
 		$this->tester->execute(array(
 			'command' => $this->command->getName(),
 			'entity' => $this->getEntityNamespace()
 		));
+
+		$this->assertContains('Entity Created Successfully', $this->tester->getDisplay());
+
+		$this->assertfileExists($this->command->getWamEntityPath());
+
+		$this->assertTrue(is_writable($this->command->getWamEntityPath()));
 	}
 
 	/**
-	 * testEntity
-	 * Test that the entity stored in the build command is the same as is passed in thsi file
+	 * Test to check for exceptions being thrown if the class passed is not a WAM class
 	 * @return void
 	 **/
-	public function testEntity()
+	public function testNonWamClass()
 	{
-		$this->assertEquals($this->getEntityNamespace(), $this->command->getEntity());
+		$this->setExpectedException('InvalidArgumentException');
+
+		$this->tester->execute(array(
+			'command' => $this->command->getName(),
+			'entity' => 'Acme\TestBundle\Entity\Category'
+		));
+	}
+
+	/**
+	 * Test to check for exceptions being thrown if the class passed does not have any properties
+	 * @return void
+	 **/
+	public function testNoProperties()
+	{
+		$this->setExpectedException('InvalidArgumentException');
+
+		$this->tester->execute(array(
+			'command' => $this->command->getName(),
+			'entity' => 'Acme\TestBundle\Entity\User'
+		));
+	}
+
+	/**
+	 * Test to check for exceptions being thrown if the class passed does not have any Wam\Dir properties
+	 * @return void
+	 **/
+	public function testNoWamProperties()
+	{
+		$this->setExpectedException('InvalidArgumentException');
+
+		$this->tester->execute(array(
+			'command' => $this->command->getName(),
+			'entity' => 'Acme\TestBundle\Entity\Content'
+		));
 	}
 	
 

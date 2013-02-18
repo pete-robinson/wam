@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+	<service id="wam.container" class="Wam\AssetBundle\Container\AbstractContainerAware">
+		<call method="setContainer">
+			<argument type="service" id="service_container" />
+		</call>
+	</service>
+
+	<service id="wam.common" class="Wam\AssetBundle\Common\WamCommon" parent="wam.container">
+
+	</service>
+
+</container>

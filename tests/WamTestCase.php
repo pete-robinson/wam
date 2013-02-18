@@ -24,6 +24,12 @@ class WamTestCase extends WebTestCase
 	 **/
 	protected $em;
 
+	/**
+	 * Conctainer
+	 * @var DIC
+	 **/
+	protected $container;
+
 
 	/**
 	 * setUp
@@ -39,10 +45,13 @@ class WamTestCase extends WebTestCase
 
 		$this->application = new Application($this->appKernel);
 		$this->application->setAutoExit(false);
+		$this->container = $this->appKernel->getContainer();
 
-		$this->em = $this->appKernel->getContainer()->get('doctrine')->getManager();
+		$this->em = $this->container->get('doctrine')->getManager();
 
 		// $this->buildDb();
+
+		// $this->runConsole('container:debug');
 	}
 
 	/**

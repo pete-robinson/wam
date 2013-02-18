@@ -10,7 +10,7 @@ use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Annotations\AnnotationRegistry;
 use Wam\AssetBundle\Annotations\Entity;
 use Wam\AssetBundle\Annotations\Dirs;
-use Wam\AssetBundle\Entity\Entity as WamEntity;
+use Wam\AssetBundle\Entity\EntityCreator;
 
 class BuildCommand extends ContainerAwareCommand
 {
@@ -25,6 +25,13 @@ class BuildCommand extends ContainerAwareCommand
 	 * @var ReflectionProperty
 	 **/
 	private $dirsProperty = false;
+
+	/**
+	 * dirName
+	 * Name of the directory to create in which generated entities are stored
+	 * @var string
+	 **/
+	private $dirName = 'WamEntity';
 	
 
 
@@ -48,7 +55,7 @@ class BuildCommand extends ContainerAwareCommand
 			// if it is, reflect the Entity and fetch it's properties
 			$class_reflection = new \ReflectionClass($this->entity);
 			$properties = $class_reflection->getProperties();
-
+			
 			// check that one of the properties is a Wam\Dir property
 			if($properties) {
 				foreach($properties as $property) {
@@ -60,6 +67,8 @@ class BuildCommand extends ContainerAwareCommand
 				// assuming one exists, create the entity
 				if($this->dirsProperty) {
 					$this->createEntity();
+
+					$output->writeln('Entity Created Successfully');
 				} else {
 					throw new \InvalidArgumentException('Could not locate @Wam\Dir in any class properties');
 				}
@@ -143,9 +152,10 @@ class BuildCommand extends ContainerAwareCommand
 	{
 		$this->createWamAssetDirectory();
 
-		$entity = new WamEntity();
+		$entity = new EntityCreator();
 		$entity->setAssetPath($this->getWamEntityPath());
-		$this->entity = $entity->create($this->getEntity());
+		$entity->create($this->getEntity());
+
 	}
 
 	/**
@@ -163,6 +173,10 @@ class BuildCommand extends ContainerAwareCommand
 			chmod($entity_path, 0777);
 		}
 
+		if(!is_dir($entity_path)) {
+			throw new \Exception('Could not create entity path. Check your bundle permissions');
+		}
+
 	}
 
 	/**
@@ -170,7 +184,7 @@ class BuildCommand extends ContainerAwareCommand
 	 * returns the directory of the wam entities for the user speicifced bundle
 	 * @return string
 	 **/
-	private function getWamEntityPath()
+	public function getWamEntityPath()
 	{
 		// get the kernel
 		$kernel = $this->getApplication()->getKernel();
@@ -188,9 +202,19 @@ class BuildCommand extends ContainerAwareCommand
 		$bundle_path = $bundles[$bundle_name]->getPath();
 
 		// append WamEntity to the path
-		$entity_path = $bundle_path . '/WamEntity';
+		$entity_path = $bundle_path . '/' . $this->getDirName();
 
 		return $entity_path;
+	}
+
+	/**
+	 * undocumented function
+	 *
+	 * @return void
+	 **/
+	public function getDirName()
+	{
+		return $this->dirName;
 	}
 
 

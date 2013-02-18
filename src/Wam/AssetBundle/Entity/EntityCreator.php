@@ -6,7 +6,7 @@ use Doctrine\Common\Annotations\AnnotationRegistry;
 use Wam\AssetBundle\Annotations\Dirs;
 
 
-class Entity
+class EntityCreator
 {
 
 	/**
@@ -57,12 +57,14 @@ class Entity
 		$this->entity = $entity;
 		$this->dirs = $this->extractDirs();
 
-		$file = new FileWriter()
-			->setDestination($this->getAssetPath())
-			->setName($this->getEntityName() . '.php')
+		$file = new FileWriter();
+		$new_entity = $file->setDestination($this->getAssetPath())
+			->setFileName($this->getEntityName() . '.php')
+			->setClassName($this->getEntityName())
 			->addProperty('dirs', $this->dirs)
-			->create();
+			->write();
 
+		return $file->getNamespace(true);
 	}
 
 	/**

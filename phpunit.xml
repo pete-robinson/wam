@@ -15,7 +15,7 @@
 
     <testsuites>
         <testsuite name="Wam Test Suite">
-            <directory>tests/Wam</directory>
+            <directory>tests/Entity</directory>
             <directory>tests/Command</directory>
         </testsuite>
     </testsuites>
