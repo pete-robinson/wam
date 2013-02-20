@@ -14,14 +14,9 @@ class WamAssetExtension extends Extension
 
 	public function load(array $configs, ContainerBuilder $container)
 	{
-		echo 'i am here';
 		$loader = new XmlFileLoader($container, new FileLocator(array(__DIR__ . '/../Resources/config')));
 		$loader->load('services.xml');
 	}
 
-	public function getAlias()
-	{
-		return 'wam_asset';
-	}
 
 }

@@ -24,6 +24,9 @@ class BuildCommandTest extends WamTestCase
 	{
 		parent::setUp();
 
+		$dir = __DIR__ . '/../SupportFiles/src/Acme/TestBundle';
+		`chmod -R 777 {$dir}`;
+
 		$this->application->add(new BuildCommand());
 
 		$this->command = $this->application->find('wam:build');
@@ -37,6 +40,11 @@ class BuildCommandTest extends WamTestCase
 	 **/
 	public function testExecute()
 	{
+		$dir = __DIR__ . '/../SupportFiles/src/Acme/TestBundle/WamEntity';
+		if(is_dir($dir)) {
+			`rm -R {$dir}`;
+		}
+
 		$this->tester->execute(array(
 			'command' => $this->command->getName(),
 			'entity' => $this->getEntityNamespace()
@@ -48,6 +56,7 @@ class BuildCommandTest extends WamTestCase
 
 		$this->assertTrue(is_writable($this->command->getWamEntityPath()));
 	}
+	
 
 	/**
 	 * Test to check for exceptions being thrown if the class passed is not a WAM class

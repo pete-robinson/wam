@@ -4,6 +4,8 @@ namespace Wam\AssetBundle\Entity;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Annotations\AnnotationRegistry;
 use Wam\AssetBundle\Annotations\Dirs;
+use Wam\AssetBundle\Entity\Property\Property;
+use Wam\AssetBundle\Entity\Entity;
 
 
 class EntityCreator
@@ -29,6 +31,12 @@ class EntityCreator
 	protected $dirs;
 
 	/**
+	 * Created entity
+	 * @var Wam\AssetBundle\Entity\Entity
+	 **/
+	protected $createdEntity;
+
+	/**
 	 * setAssetPath
 	 * @param string $asset_path
 	 * @return void
@@ -48,6 +56,15 @@ class EntityCreator
 	}
 
 	/**
+	 * getDirs
+	 * @return array
+	 **/
+	public function getDirs()
+	{
+		return $this->dirs;
+	}
+
+	/**
 	 * create
 	 * @param string $entity - namespace of the entity to create an Entity for
 	 * @return void
@@ -57,14 +74,19 @@ class EntityCreator
 		$this->entity = $entity;
 		$this->dirs = $this->extractDirs();
 
-		$file = new FileWriter();
-		$new_entity = $file->setDestination($this->getAssetPath())
-			->setFileName($this->getEntityName() . '.php')
-			->setClassName($this->getEntityName())
-			->addProperty('dirs', $this->dirs)
-			->write();
+		$this->createdEntity = new Entity($this->getEntityName());
+		$this->createdEntity->setDestinationFile($this->getAssetPath())
+			->setExtends('AbstractEntity')
+			->setImplements('AssetDefinition')
+			->addUses('Wam\AssetBundle\Entity\Base\AbstractEntity')
+			->addUses('Wam\AssetBundle\Entity\Base\AssetDefinition')
+			->setPermission('final')
+			->addProperty(new Property('protected', 'dirs', $this->dirs))
+			->compile();
+		
+		$this->createdEntity->save();
 
-		return $file->getNamespace(true);
+		return $this->createdEntity->getNamespace(true);
 	}
 
 	/**

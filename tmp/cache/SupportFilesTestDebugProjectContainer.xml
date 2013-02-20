@@ -754,6 +754,17 @@
       </argument>
       <configurator service="doctrine.orm.default_manager_configurator" method="configure"/>
     </service>
+    <service id="wam.container" class="Wam\AssetBundle\Container\AbstractContainerAware">
+      <call method="setContainer">
+        <argument type="service" id="service_container"/>
+      </call>
+    </service>
+    <service id="wam" class="Wam\AssetBundle\Common\Wam">
+      <call method="setContainer">
+        <argument type="service" id="service_container"/>
+      </call>
+      <call method="initialize"/>
+    </service>
     <service id="session.storage.filesystem" class="Symfony\Component\HttpFoundation\Session\Storage\MockFileSessionStorage">
       <argument>/Users/pete.robinson/Sites/wam/tests/SupportFiles/../../tmp/cache/sessions</argument>
     </service>

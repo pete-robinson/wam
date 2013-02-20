@@ -50,8 +50,6 @@ class WamTestCase extends WebTestCase
 		$this->em = $this->container->get('doctrine')->getManager();
 
 		// $this->buildDb();
-
-		// $this->runConsole('container:debug');
 	}
 
 	/**

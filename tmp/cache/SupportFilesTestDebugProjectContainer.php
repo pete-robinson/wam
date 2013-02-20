@@ -926,6 +926,41 @@ class SupportFilesTestDebugProjectContainer extends Container
     }
 
     /**
+     * Gets the 'wam' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return Wam\AssetBundle\Common\Wam A Wam\AssetBundle\Common\Wam instance.
+     */
+    protected function getWamService()
+    {
+        $this->services['wam'] = $instance = new \Wam\AssetBundle\Common\Wam();
+
+        $instance->setContainer($this);
+        $instance->initialize();
+
+        return $instance;
+    }
+
+    /**
+     * Gets the 'wam.container' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return Wam\AssetBundle\Container\AbstractContainerAware A Wam\AssetBundle\Container\AbstractContainerAware instance.
+     */
+    protected function getWam_ContainerService()
+    {
+        $this->services['wam.container'] = $instance = new \Wam\AssetBundle\Container\AbstractContainerAware();
+
+        $instance->setContainer($this);
+
+        return $instance;
+    }
+
+    /**
      * Gets the database_connection service alias.
      *
      * @return stdClass An instance of the doctrine.dbal.default_connection service

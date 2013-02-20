@@ -10,7 +10,7 @@
 {{namespace}}
 {{use}}
 
-final class {{classname}} extends AbstractEntity implements AssetDefinition
+{{permission}}class {{classname}}{{extends}}{{implements}}
 {
 	{{properties}}
 }

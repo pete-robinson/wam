@@ -47,6 +47,7 @@ class Product
 	 * @var array
 	 **/
 	protected $dirs = array(
+		'products/{id}',
 		'products/{id}/images',
 		'products/{id}/images/100',
 		'products/{id}/images/200',

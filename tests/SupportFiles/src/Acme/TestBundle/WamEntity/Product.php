@@ -8,22 +8,23 @@
  * file that was distributed with this source code.
  */
 namespace Acme\TestBundle\WamEntity;
-use Wam\AssetBundle\Entity\AbstractEntity;
+use Wam\AssetBundle\Entity\Base\AbstractEntity;
 use Wam\AssetBundle\Entity\Base\AssetDefinition;
 
 final class Product extends AbstractEntity implements AssetDefinition
 {
+	
 	/**
 	 * dirs
 	 * @var array
 	 */
 	protected $dirs = array(
+		'products/{id}',
 		'products/{id}/images',
 		'products/{id}/images/100',
 		'products/{id}/images/200',
 		'products/{id}/images/800',
 		'products/{id}/documents'
 	);
-
 
 }

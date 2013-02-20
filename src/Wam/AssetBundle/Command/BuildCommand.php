@@ -52,6 +52,7 @@ class BuildCommand extends ContainerAwareCommand
 
 		// check that entity is valid
 		if($this->entityIsValid()) {
+
 			// if it is, reflect the Entity and fetch it's properties
 			$class_reflection = new \ReflectionClass($this->entity);
 			$properties = $class_reflection->getProperties();
@@ -151,11 +152,9 @@ class BuildCommand extends ContainerAwareCommand
 	private function createEntity()
 	{
 		$this->createWamAssetDirectory();
-
 		$entity = new EntityCreator();
 		$entity->setAssetPath($this->getWamEntityPath());
 		$entity->create($this->getEntity());
-
 	}
 
 	/**
@@ -167,13 +166,13 @@ class BuildCommand extends ContainerAwareCommand
 	{
 		// create the directory if it does not exist
 		$entity_path = $this->getWamEntityPath();
-
+		
 		if(!is_dir($entity_path)) {
 			mkdir($entity_path, 0777);
 			chmod($entity_path, 0777);
 		}
-
-		if(!is_dir($entity_path)) {
+		
+		if(!is_dir($entity_path) || !is_writable($entity_path)) {
 			throw new \Exception('Could not create entity path. Check your bundle permissions');
 		}
 
