@@ -1,4 +1,12 @@
 <?php
+/*
+ * This file is part of the Wam Web Asset Manager Package
+ *
+ * (c) Pete Robinson <work@pete-robinson.co.uk>
+ *
+ * For the full copyright and license information, please view the LICENSE file
+ */
+ 
 namespace Wam\AssetBundle\Entity;
 
 use Doctrine\Common\Annotations\AnnotationReader;
@@ -85,7 +93,7 @@ class EntityCreator
 			->compile();
 		
 		$this->createdEntity->save();
-
+		
 		return $this->createdEntity->getNamespace(true);
 	}
 

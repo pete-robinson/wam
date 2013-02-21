@@ -1,4 +1,12 @@
 <?php
+/*
+ * This file is part of the Wam Web Asset Manager Package
+ *
+ * (c) Pete Robinson <work@pete-robinson.co.uk>
+ *
+ * For the full copyright and license information, please view the LICENSE file
+ */
+ 
 require_once __DIR__ . '/../WamTestCase.php';
 
 use Wam\AssetBundle\Entity\Entity;
@@ -21,7 +29,7 @@ class EntityTest extends WamTestCase
 	{
 		$product = $this->getProduct(1);
 
-		$wam = $this->container->get('wam')->getEntity('AcmeTestBundle:WamEntity:Product', $product);
+		$wam = $this->container->get('wam')->load($product);
 		
 		foreach(array_reverse($wam->getAssets()) as $dir) {
 			if($dir->exists()) {
@@ -30,28 +38,21 @@ class EntityTest extends WamTestCase
 		}
 
 		$wam->create();
-
-
+		
+		$this->assertInstanceOf('Wam\AssetBundle\Entity\Base\AssetDefinition', $wam);
+		$this->assertInstanceOf('Wam\AssetBundle\Entity\Base\AbstractEntity', $wam);
 	}
 
 	/**
-	 * @expectedException Wam\AssetBundle\Exception\WamException
+	 * test that fetching an entity breaks if you specify an incorrect namespace
 	 * @return void
 	 **/
 	public function testError()
 	{
-		$product = $this->getProduct(1);
+		$this->setExpectedException('Wam\AssetBundle\Exception\WamException');
+		$category = $this->getCategory(1);
 
-		$wam = $this->container->get('wam')->getEntity('AcmeTestBundle', $product);
-	}
-
-	/**
-	 * get Product for test data
-	 * @return Acme\TestBundle\Entity\Product
-	 **/
-	private function getProduct($id)
-	{
-		return $this->em->getRepository('AcmeTestBundle:Product')->find($id);
+		$wam = $this->container->get('wam')->load($category);
 	}
 
 	/**
@@ -127,6 +128,42 @@ class EntityTest extends WamTestCase
 		}
 
 		return $entity;
+	}
+
+	/**
+	 * get Product for test data
+	 * @return Acme\TestBundle\Entity\Product
+	 **/
+	private function getProduct($id)
+	{
+		return $this->em->getRepository('AcmeTestBundle:Product')->find($id);
+	}
+
+	/**
+	 * get Category for test data
+	 * @return Acme\TestBundle\Entity\Category
+	 **/
+	private function getCategory($id)
+	{
+		return $this->em->getRepository('AcmeTestBundle:Category')->find($id);
+	}
+
+	/**
+	 * get User for test data
+	 * @return Acme\TestBundle\Entity\User
+	 **/
+	private function getUser($id)
+	{
+		return $this->em->getRepository('AcmeTestBundle:User')->find($id);
+	}
+
+	/**
+	 * get Content for test data
+	 * @return Acme\TestBundle\Entity\Content
+	 **/
+	private function getContent($id)
+	{
+		return $this->em->getRepository('AcmeTestBundle:Content')->find($id);
 	}
 	
 	

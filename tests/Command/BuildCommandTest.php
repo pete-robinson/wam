@@ -1,4 +1,12 @@
 <?php
+/*
+ * This file is part of the Wam Web Asset Manager Package
+ *
+ * (c) Pete Robinson <work@pete-robinson.co.uk>
+ *
+ * For the full copyright and license information, please view the LICENSE file
+ */
+ 
 require_once __DIR__ . '/../WamTestCase.php';
 
 use Symfony\Component\Console\Tester\CommandTester;
@@ -50,11 +58,39 @@ class BuildCommandTest extends WamTestCase
 			'entity' => $this->getEntityNamespace()
 		));
 
-		$this->assertContains('Entity Created Successfully', $this->tester->getDisplay());
+		$this->assertContains('Congratulations, the WamEntity was created successfully', $this->tester->getDisplay());
 
-		$this->assertfileExists($this->command->getWamEntityPath());
+		$this->assertfileExists(__DIR__ . '/../SupportFiles/src/Acme/TestBundle/WamEntity');
 
-		$this->assertTrue(is_writable($this->command->getWamEntityPath()));
+		$this->assertTrue(is_writable(__DIR__ . '/../SupportFiles/src/Acme/TestBundle/WamEntity'));
+	}
+
+	/**
+	 * Text Execute on class without @Wam\Dir Property
+	 * @return void
+	 **/
+	public function testExecuteOnClassWithoutWamDirProperty()
+	{
+		$this->tester->execute(array(
+			'command' => $this->command->getName(),
+			'entity' => 'Acme\TestBundle\Entity\User'
+		));
+
+		$this->assertContains('ERROR', $this->tester->getDisplay());
+	}
+
+	/**
+	 * Text Execute on class that does not exist
+	 * @return void
+	 **/
+	public function testExecuteOnClassThatDoesNotExist()
+	{
+		$this->tester->execute(array(
+			'command' => $this->command->getName(),
+			'entity' => 'Acme\TestBundle\Entity\NonExistantClass'
+		));
+
+		$this->assertContains('ERROR', $this->tester->getDisplay());
 	}
 	
 
@@ -64,12 +100,12 @@ class BuildCommandTest extends WamTestCase
 	 **/
 	public function testNonWamClass()
 	{
-		$this->setExpectedException('InvalidArgumentException');
-
 		$this->tester->execute(array(
 			'command' => $this->command->getName(),
 			'entity' => 'Acme\TestBundle\Entity\Category'
 		));
+
+		$this->assertContains('ERROR', $this->tester->getDisplay());
 	}
 
 	/**
@@ -78,12 +114,12 @@ class BuildCommandTest extends WamTestCase
 	 **/
 	public function testNoProperties()
 	{
-		$this->setExpectedException('InvalidArgumentException');
-
 		$this->tester->execute(array(
 			'command' => $this->command->getName(),
 			'entity' => 'Acme\TestBundle\Entity\User'
 		));
+
+		$this->assertContains('ERROR', $this->tester->getDisplay());
 	}
 
 	/**
@@ -92,12 +128,12 @@ class BuildCommandTest extends WamTestCase
 	 **/
 	public function testNoWamProperties()
 	{
-		$this->setExpectedException('InvalidArgumentException');
-
 		$this->tester->execute(array(
 			'command' => $this->command->getName(),
 			'entity' => 'Acme\TestBundle\Entity\Content'
 		));
+
+		$this->assertContains('ERROR', $this->tester->getDisplay());
 	}
 	
 

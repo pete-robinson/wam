@@ -1,4 +1,12 @@
 <?php
+/*
+ * This file is part of the Wam Web Asset Manager Package
+ *
+ * (c) Pete Robinson <work@pete-robinson.co.uk>
+ *
+ * For the full copyright and license information, please view the LICENSE file
+ */
+ 
 require_once __DIR__ . '/../WamTestCase.php';
 
 use Symfony\Component\Console\Tester\CommandTester;
@@ -45,6 +53,15 @@ class DirectoryTest extends WamTestCase
 
 		$this->dir->delete();
 		$this->assertFalse($this->dir->exists());
+	}
+
+	/**
+	 * test to string
+	 * @return void
+	 **/
+	public function testToString()
+	{
+		$this->assertEquals((string) $this->dir, $this->dir->getPath());
 	}
 
 	/**

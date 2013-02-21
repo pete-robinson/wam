@@ -1,4 +1,12 @@
 <?php
+/*
+ * This file is part of the Wam Web Asset Manager Package
+ *
+ * (c) Pete Robinson <work@pete-robinson.co.uk>
+ *
+ * For the full copyright and license information, please view the LICENSE file
+ */
+ 
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -29,6 +37,12 @@ class WamTestCase extends WebTestCase
 	 * @var DIC
 	 **/
 	protected $container;
+
+	/**
+	 * db loaded
+	 * @var DIC
+	 **/
+	protected $dbLoaded = false;
 
 
 	/**
@@ -61,7 +75,7 @@ class WamTestCase extends WebTestCase
 	{
 		$this->runConsole('doctrine:schema:drop', array('--force' => true));
 		$this->runConsole('doctrine:schema:create');
-		$this->runConsole('doctrine:fixtures:load', array('--fixtures' => 'tests/SupportFiles/bundles/Acme/TestBundle/DataFixtures/Test'));
+		$this->runConsole('doctrine:fixtures:load', array('--fixtures' => 'tests/SupportFiles/src/Acme/TestBundle/DataFixtures/Test', '--append' => true));
 
 	}
 

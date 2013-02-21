@@ -1,4 +1,12 @@
 <?php
+/*
+ * This file is part of the Wam Web Asset Manager Package
+ *
+ * (c) Pete Robinson <work@pete-robinson.co.uk>
+ *
+ * For the full copyright and license information, please view the LICENSE file
+ */
+ 
 namespace Wam\AssetBundle\Entity\Base;
 use Wam\AssetBundle\Asset\Directory\Directory;
 use Doctrine\ORM\EntityManager;
