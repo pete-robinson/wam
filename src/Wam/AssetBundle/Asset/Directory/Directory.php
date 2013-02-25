@@ -49,7 +49,6 @@ class Directory implements WebAsset
 	 * @param string $real_path - path of the directory (from server root)
 	 * @return void
 	 **/
-	
 	public function __construct($name, $path, $real_path)
 	{
 		$this->setName($name);
@@ -146,7 +145,7 @@ class Directory implements WebAsset
 	{
 		// if the directory exists, clean it
 		if(is_dir($this->getRealPath())) {
-			$this->cleanDir();
+			$this->clean();
 			// then delete it
 			rmdir($this->getRealPath());
 		}
@@ -159,9 +158,14 @@ class Directory implements WebAsset
 	 * @todo write tis method
 	 * @return void
 	 **/
-	public function cleanDir()
+	public function clean()
 	{
-		
+		$files = glob($this->getRealPath() . '/*');
+		if($files) {
+			foreach($files as $file) {
+				@unlink($file);
+			}
+		}
 	}
 	
 

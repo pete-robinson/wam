@@ -73,6 +73,25 @@ class DirectoryTest extends WamTestCase
 	{
 		$this->assertEquals($this->dir->getPath(), $this->path);
 	}
+
+	/**
+	 * test cleanDir
+	 * @return void
+	 **/
+	public function testCleanDir()
+	{
+		$this->dir->create();
+		$file = __DIR__ . '/../../tmp/files/logo.jpg';
+		copy($file, $this->dir->getRealPath() . '/' . basename($file));
+
+		$this->assertTrue(file_exists($this->dir->getRealPath() . '/' . basename($file)));
+
+		$this->dir->clean();
+
+		$this->assertFalse(file_exists($this->dir->getRealPath() . '/' . basename($file)));
+
+		$this->dir->delete();
+	}
 	
 	
 	
