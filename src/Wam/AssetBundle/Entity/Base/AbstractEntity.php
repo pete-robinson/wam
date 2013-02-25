@@ -95,6 +95,8 @@ class AbstractEntity
 	 **/
 	public function mapDirectories()
 	{
+		$this->assets = array();
+
 		foreach($this->dirs as $dir) {
 			$d = str_replace('{' . $this->primaryField . '}', $this->primaryKey, $dir);
 
@@ -109,6 +111,8 @@ class AbstractEntity
 	 **/
 	public function create()
 	{
+		$this->mapDirectories();
+		
 		foreach($this->assets as $asset) {
 			if(!$asset->exists()) {
 				$asset->create();
