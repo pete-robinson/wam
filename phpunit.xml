@@ -22,7 +22,7 @@
     </testsuites>
 
     <php>
-        <server name="KERNEL_DIR" value="tests/SupportFiles" />
+        <server name="KERNEL_DIR" value="tests/SupportFiles/app" />
     </php>
 
     <filter>

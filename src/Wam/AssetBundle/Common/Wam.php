@@ -67,7 +67,7 @@ class Wam extends AbstractContainerAware
 	public function load($doctrine_entity)
 	{
 		// get the document root
-		$root_dir = $this->getContainer()->get('kernel')->getRootDir() . '/web/';
+		$root_dir = $this->getContainer()->get('kernel')->getRootDir() . '/../web/';
 		// get the class that's been request
 		$class = $this->getEntityNamespace(get_class($doctrine_entity));
 
