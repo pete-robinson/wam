@@ -35,7 +35,6 @@ class DirectoryTest extends WamTestCase
 	public function testSetName()
 	{
 		$name = 'newdir';
-
 		$this->dir->setName($name);
 		$this->assertEquals($this->dir->getName(), $name);
 	}
