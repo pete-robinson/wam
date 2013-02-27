@@ -111,8 +111,6 @@ class AbstractEntity
 	 **/
 	public function create()
 	{
-		$this->mapDirectories();
-		
 		foreach($this->assets as $asset) {
 			if(!$asset->exists()) {
 				$asset->create();
@@ -121,12 +119,12 @@ class AbstractEntity
 	}
 
 	/**
-	 * get Assets
-	 *
-	 * @return array
+	 * get directories
+	 * @return void
 	 **/
-	public function getAssets()
+	public function getDirs()
 	{
+		$this->mapDirectories();
 		return $this->assets;
 	}
 	

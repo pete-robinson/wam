@@ -13,7 +13,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 abstract class AbstractContainerAware implements ContainerAwareInterface
 {
-	/**
+    /**
      * Service Container Interface
      * @var Symfony\Component\DependencyInjection\ContainerInterface
      */

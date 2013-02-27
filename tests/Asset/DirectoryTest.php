@@ -11,7 +11,9 @@ require_once __DIR__ . '/../WamTestCase.php';
 
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Wam\AssetBundle\Asset\Directory\Directory;
+use Wam\AssetBundle\Asset\File\File;
 
 class DirectoryTest extends WamTestCase
 {
@@ -24,7 +26,7 @@ class DirectoryTest extends WamTestCase
 	public function setUp()
 	{
 		parent::setUp();
-		$this->dir = new Directory($this->dirName, $this->path, __DIR__ . '/../SupportFiles/web/');
+		$this->dir = new Directory($this->dirName, $this->path, $this->appKernel->getRootDir() . '/../web/');
 	}
 
 	/**
@@ -91,6 +93,43 @@ class DirectoryTest extends WamTestCase
 
 		$this->dir->delete();
 	}
+
+	/**
+	 * test directory->put
+	 * @return void
+	 **/
+	public function testPut()
+	{
+		if(!$this->dir->exists()) {
+			$this->dir->create();
+		}
+
+		$file = new File('logo.jpg', '', realpath(__DIR__ . '/../../tmp/files/'));
+		$file->setDestination($this->dir);
+		$file->create();
+
+		$this->assertFileExists($this->dir->getRealPath() . '/' . $file->getName());
+	}
+
+	/**
+	 * test directory->put throws an exception 
+	 * @return void
+	 **/
+	public function testListDirectories()
+	{
+		$files = $this->dir->listDir();
+		$this->assertTrue(array_key_exists('0', $files));
+
+		$file = $files[0];
+
+		$this->assertInstanceOf('Wam\AssetBundle\Asset\File\File', $file);
+
+		$this->assertEquals($file->getName(), 'logo.jpg');
+	}
+
+	
+	
+	
 	
 	
 	

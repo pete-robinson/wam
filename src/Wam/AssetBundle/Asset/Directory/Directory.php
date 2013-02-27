@@ -8,29 +8,12 @@
  */
  
 namespace Wam\AssetBundle\Asset\Directory;
+use Wam\AssetBundle\Asset\Base\AbstractWebAsset;
 use Wam\AssetBundle\Asset\Base\WebAsset;
+use Wam\AssetBundle\Asset\File\File;
 
-class Directory implements WebAsset
+class Directory extends AbstractWebAsset implements WebAsset
 {
-
-	/**
-	 * name of the directory
-	 * @var string
-	 **/
-	protected $name;
-
-	/**
-	 * Path to the directory from doc root
-	 * @var string
-	 **/
-	protected $path;
-
-	/**
-	 * path to the directory from server root
-	 * @var string
-	 **/
-	protected $realPath;
-
 
 	/**
 	 * ToString method
@@ -39,81 +22,6 @@ class Directory implements WebAsset
 	public function __tostring()
 	{
 		return $this->getPath();
-	}
-
-
-	/**
-	 * constructor - accepts arguments to allow for one-line configuration
-	 * @param string $name - name of the directory
-	 * @param string $path - path of the directory (from doc root)
-	 * @param string $real_path - path of the directory (from server root)
-	 * @return void
-	 **/
-	public function __construct($name, $path, $real_path)
-	{
-		$this->setName($name);
-		$this->setPath($path);
-		$this->setRealPath($real_path . $path);
-	}
-
-	/**
-	 * set name
-	 * @param string $name
-	 * @return Wam\AssetBundle\Asset\Directory
-	 **/
-	public function setName($name)
-	{
-		$this->name = $name;
-		return $this;
-	}
-
-	/**
-	 * get name
-	 * @return string
-	 **/
-	public function getName()
-	{
-		return $this->name;
-	}
-
-	/**
-	 * set path
-	 * @param string $path
-	 * @return Wam\AssetBundle\Asset\Directory
-	 **/
-	public function setPath($path)
-	{
-		$this->path = $path;
-		return $this;
-	}
-
-	/**
-	 * get path
-	 * @return string
-	 **/
-	public function getPath($real = false)
-	{
-		return ($real) ? $this->getRealPath() : $this->path;
-	}
-
-	/**
-	 * set real path
-	 * @param string $real_path
-	 * @return Wam\AssetBundle\Asset\Directory
-	 **/
-	public function setRealPath($real_path)
-	{
-		$this->realPath = $real_path;
-		return $this;
-	}
-
-	/**
-	 * get real path
-	 * @return string
-	 **/
-	public function getRealPath()
-	{
-		return $this->realPath;
 	}
 
 	/**
@@ -144,7 +52,7 @@ class Directory implements WebAsset
 	public function delete()
 	{
 		// if the directory exists, clean it
-		if(is_dir($this->getRealPath())) {
+		if($this->exists()) {
 			$this->clean();
 			// then delete it
 			rmdir($this->getRealPath());
@@ -166,6 +74,40 @@ class Directory implements WebAsset
 				@unlink($file);
 			}
 		}
+	}
+
+	/**
+	 * put file into directory
+	 * @param WebAsset $asset
+	 * @return File
+	 **/
+	public function put(WebAsset $asset)
+	{
+		if($asset->isUpload()) {
+			move_uploaded_file($asset->getRealPath() . '/' . $asset->getName(), $this->getRealPath() . '/' . $asset->getName());
+		} else {
+			copy($asset->getRealPath() . '/' . $asset->getName(), $this->getRealPath() . '/' . $asset->getName());
+		}
+
+		return new File($asset->getName(), $this->getPath(), str_replace($this->getPath(), '', $this->getRealPath()));
+	}
+	
+
+	/**
+	 * list files
+	 * @param string $name
+	 * @return Wam\AssetBundle\Asset\File
+	 **/
+	public function listDir()
+	{
+		$files = glob($this->getRealPath() . '/*.*');
+		if($files) {
+			foreach($files as $file) {
+				$this->files[] = new File(basename($file), $this->getPath(), str_replace($this->getPath(), '', dirname($file)));
+			}
+		}
+
+		return $this->files;
 	}
 	
 

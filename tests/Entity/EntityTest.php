@@ -31,7 +31,7 @@ class EntityTest extends WamTestCase
 
 		$wam = $this->container->get('wam')->load($product);
 		
-		foreach(array_reverse($wam->getAssets()) as $dir) {
+		foreach(array_reverse($wam->getDirs()) as $dir) {
 			if($dir->exists()) {
 				$dir->delete();
 			}
@@ -104,6 +104,16 @@ class EntityTest extends WamTestCase
 		$entity = $this->getStdEntity(false);
 		$this->assertFalse($entity->autoGenerateNamespace());
 	}
+
+	/**
+	 * test get dirs
+	 * @return void
+	 **/
+	public function testGetDirectories()
+	{
+
+	}
+	
 	
 
 	/**

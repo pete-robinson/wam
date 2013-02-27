@@ -13,43 +13,28 @@ interface WebAsset
 {
 
 	/**
-	 * template for getName()
-	 * name of asset
+	 * tostring method
 	 * @return string
 	 **/
-	public function getName();
+	public function __tostring();
+	
 
 	/**
-	 * template for getPath()
-	 * Returns path relative to the doc root
-	 * @param bool $real = false - set to true to return realpath
+	 * returns true if the directory exists
 	 * @return string
 	 **/
-	public function getPath($rel = false);
+	public function exists();
 
 	/**
-	 * template for getRealPath()
-	 * Returns the path from the server root
-	 * @return string
-	 **/
-	public function getRealPath();
-
-	/**
-	 * template for create()
-	 * creates asset
+	 * create asset
 	 * @return void
 	 **/
 	public function create();
-	
+
 	/**
-	 * template for delete()
-	 * removes asset
+	 * deletes the asset
 	 * @return void
 	 **/
 	public function delete();
-	
-	
-	
-	
 
 }

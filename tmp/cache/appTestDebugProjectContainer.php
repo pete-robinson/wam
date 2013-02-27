@@ -45,7 +45,7 @@ class appTestDebugProjectContainer extends Container
      */
     protected function getAnnotationReaderService()
     {
-        return $this->services['annotation_reader'] = new \Doctrine\Common\Annotations\FileCacheReader(new \Doctrine\Common\Annotations\AnnotationReader(), '/Users/pete.robinson/Sites/wam/tests/SupportFiles/app/../../../tmp/cache/annotations', true);
+        return $this->services['annotation_reader'] = new \Doctrine\Common\Annotations\FileCacheReader(new \Doctrine\Common\Annotations\AnnotationReader(), '/Users/pete.robinson/Sites/wam/asset/tests/SupportFiles/app/../../../tmp/cache/annotations', true);
     }
 
     /**
@@ -159,15 +159,15 @@ class appTestDebugProjectContainer extends Container
         $a = $this->get('annotation_reader');
 
         $b = new \Doctrine\Common\Cache\ArrayCache();
-        $b->setNamespace('sf2orm_default_aa6225755eef8fd67812557938df4ec3');
+        $b->setNamespace('sf2orm_default_1b84124dbaa1fe3b2b0c4642fb727efa');
 
         $c = new \Doctrine\Common\Cache\ArrayCache();
-        $c->setNamespace('sf2orm_default_aa6225755eef8fd67812557938df4ec3');
+        $c->setNamespace('sf2orm_default_1b84124dbaa1fe3b2b0c4642fb727efa');
 
         $d = new \Doctrine\Common\Cache\ArrayCache();
-        $d->setNamespace('sf2orm_default_aa6225755eef8fd67812557938df4ec3');
+        $d->setNamespace('sf2orm_default_1b84124dbaa1fe3b2b0c4642fb727efa');
 
-        $e = new \Doctrine\ORM\Mapping\Driver\AnnotationDriver($a, array(0 => '/Users/pete.robinson/Sites/wam/tests/SupportFiles/src/Acme/TestBundle/Entity', 1 => '/Users/pete.robinson/Sites/wam/src/Wam/AssetBundle/Entity'));
+        $e = new \Doctrine\ORM\Mapping\Driver\AnnotationDriver($a, array(0 => '/Users/pete.robinson/Sites/wam/asset/tests/SupportFiles/src/Acme/TestBundle/Entity', 1 => '/Users/pete.robinson/Sites/wam/asset/src/Wam/AssetBundle/Entity'));
 
         $f = new \Doctrine\ORM\Mapping\Driver\DriverChain();
         $f->addDriver($e, 'Acme\\TestBundle\\Entity');
@@ -179,7 +179,7 @@ class appTestDebugProjectContainer extends Container
         $g->setQueryCacheImpl($c);
         $g->setResultCacheImpl($d);
         $g->setMetadataDriverImpl($f);
-        $g->setProxyDir('/Users/pete.robinson/Sites/wam/tests/SupportFiles/app/../../../tmp/cache/doctrine/orm/Proxies');
+        $g->setProxyDir('/Users/pete.robinson/Sites/wam/asset/tests/SupportFiles/app/../../../tmp/cache/doctrine/orm/Proxies');
         $g->setProxyNamespace('Proxies');
         $g->setAutoGenerateProxyClasses(true);
         $g->setClassMetadataFactoryName('Doctrine\\ORM\\Mapping\\ClassMetadataFactory');
@@ -264,7 +264,7 @@ class appTestDebugProjectContainer extends Container
      */
     protected function getFileLocatorService()
     {
-        return $this->services['file_locator'] = new \Symfony\Component\HttpKernel\Config\FileLocator($this->get('kernel'), '/Users/pete.robinson/Sites/wam/tests/SupportFiles/app/Resources');
+        return $this->services['file_locator'] = new \Symfony\Component\HttpKernel\Config\FileLocator($this->get('kernel'), '/Users/pete.robinson/Sites/wam/asset/tests/SupportFiles/app/Resources');
     }
 
     /**
@@ -385,7 +385,7 @@ class appTestDebugProjectContainer extends Container
      */
     protected function getRouterService()
     {
-        return $this->services['router'] = new \Symfony\Bundle\FrameworkBundle\Routing\Router($this, '/Users/pete.robinson/Sites/wam/tests/SupportFiles/app/config/routing.yml', array('cache_dir' => '/Users/pete.robinson/Sites/wam/tests/SupportFiles/app/../../../tmp/cache', 'debug' => true, 'generator_class' => 'Symfony\\Component\\Routing\\Generator\\UrlGenerator', 'generator_base_class' => 'Symfony\\Component\\Routing\\Generator\\UrlGenerator', 'generator_dumper_class' => 'Symfony\\Component\\Routing\\Generator\\Dumper\\PhpGeneratorDumper', 'generator_cache_class' => 'apptestUrlGenerator', 'matcher_class' => 'Symfony\\Bundle\\FrameworkBundle\\Routing\\RedirectableUrlMatcher', 'matcher_base_class' => 'Symfony\\Bundle\\FrameworkBundle\\Routing\\RedirectableUrlMatcher', 'matcher_dumper_class' => 'Symfony\\Component\\Routing\\Matcher\\Dumper\\PhpMatcherDumper', 'matcher_cache_class' => 'apptestUrlMatcher', 'strict_requirements' => true), $this->get('router.request_context'), NULL);
+        return $this->services['router'] = new \Symfony\Bundle\FrameworkBundle\Routing\Router($this, '/Users/pete.robinson/Sites/wam/asset/tests/SupportFiles/app/config/routing.yml', array('cache_dir' => '/Users/pete.robinson/Sites/wam/asset/tests/SupportFiles/app/../../../tmp/cache', 'debug' => true, 'generator_class' => 'Symfony\\Component\\Routing\\Generator\\UrlGenerator', 'generator_base_class' => 'Symfony\\Component\\Routing\\Generator\\UrlGenerator', 'generator_dumper_class' => 'Symfony\\Component\\Routing\\Generator\\Dumper\\PhpGeneratorDumper', 'generator_cache_class' => 'apptestUrlGenerator', 'matcher_class' => 'Symfony\\Bundle\\FrameworkBundle\\Routing\\RedirectableUrlMatcher', 'matcher_base_class' => 'Symfony\\Bundle\\FrameworkBundle\\Routing\\RedirectableUrlMatcher', 'matcher_dumper_class' => 'Symfony\\Component\\Routing\\Matcher\\Dumper\\PhpMatcherDumper', 'matcher_cache_class' => 'apptestUrlMatcher', 'strict_requirements' => true), $this->get('router.request_context'), NULL);
     }
 
     /**
@@ -457,7 +457,7 @@ class appTestDebugProjectContainer extends Container
      */
     protected function getSession_HandlerService()
     {
-        return $this->services['session.handler'] = new \Symfony\Component\HttpFoundation\Session\Storage\Handler\NativeFileSessionHandler('/Users/pete.robinson/Sites/wam/tests/SupportFiles/app/../../../tmp/cache/sessions');
+        return $this->services['session.handler'] = new \Symfony\Component\HttpFoundation\Session\Storage\Handler\NativeFileSessionHandler('/Users/pete.robinson/Sites/wam/asset/tests/SupportFiles/app/../../../tmp/cache/sessions');
     }
 
     /**
@@ -470,7 +470,7 @@ class appTestDebugProjectContainer extends Container
      */
     protected function getSession_Storage_FilesystemService()
     {
-        return $this->services['session.storage.filesystem'] = new \Symfony\Component\HttpFoundation\Session\Storage\MockFileSessionStorage('/Users/pete.robinson/Sites/wam/tests/SupportFiles/app/../../../tmp/cache/sessions');
+        return $this->services['session.storage.filesystem'] = new \Symfony\Component\HttpFoundation\Session\Storage\MockFileSessionStorage('/Users/pete.robinson/Sites/wam/asset/tests/SupportFiles/app/../../../tmp/cache/sessions');
     }
 
     /**
@@ -909,7 +909,7 @@ class appTestDebugProjectContainer extends Container
      */
     protected function getTranslator_DefaultService()
     {
-        return $this->services['translator.default'] = new \Symfony\Bundle\FrameworkBundle\Translation\Translator($this, $this->get('translator.selector'), array('translation.loader.php' => array(0 => 'php'), 'translation.loader.yml' => array(0 => 'yml'), 'translation.loader.xliff' => array(0 => 'xlf', 1 => 'xliff'), 'translation.loader.po' => array(0 => 'po'), 'translation.loader.mo' => array(0 => 'mo'), 'translation.loader.qt' => array(0 => 'ts'), 'translation.loader.csv' => array(0 => 'csv'), 'translation.loader.res' => array(0 => 'res'), 'translation.loader.dat' => array(0 => 'dat'), 'translation.loader.ini' => array(0 => 'ini')), array('cache_dir' => '/Users/pete.robinson/Sites/wam/tests/SupportFiles/app/../../../tmp/cache/translations', 'debug' => true));
+        return $this->services['translator.default'] = new \Symfony\Bundle\FrameworkBundle\Translation\Translator($this, $this->get('translator.selector'), array('translation.loader.php' => array(0 => 'php'), 'translation.loader.yml' => array(0 => 'yml'), 'translation.loader.xliff' => array(0 => 'xlf', 1 => 'xliff'), 'translation.loader.po' => array(0 => 'po'), 'translation.loader.mo' => array(0 => 'mo'), 'translation.loader.qt' => array(0 => 'ts'), 'translation.loader.csv' => array(0 => 'csv'), 'translation.loader.res' => array(0 => 'res'), 'translation.loader.dat' => array(0 => 'dat'), 'translation.loader.ini' => array(0 => 'ini')), array('cache_dir' => '/Users/pete.robinson/Sites/wam/asset/tests/SupportFiles/app/../../../tmp/cache/translations', 'debug' => true));
     }
 
     /**
@@ -922,7 +922,7 @@ class appTestDebugProjectContainer extends Container
      */
     protected function getValidatorService()
     {
-        return $this->services['validator'] = new \Symfony\Component\Validator\Validator(new \Symfony\Component\Validator\Mapping\ClassMetadataFactory(new \Symfony\Component\Validator\Mapping\Loader\LoaderChain(array(0 => new \Symfony\Component\Validator\Mapping\Loader\AnnotationLoader($this->get('annotation_reader')), 1 => new \Symfony\Component\Validator\Mapping\Loader\StaticMethodLoader(), 2 => new \Symfony\Component\Validator\Mapping\Loader\XmlFilesLoader(array(0 => '/Users/pete.robinson/Sites/wam/vendor/symfony/symfony/src/Symfony/Component/Form/Resources/config/validation.xml')), 3 => new \Symfony\Component\Validator\Mapping\Loader\YamlFilesLoader(array()))), NULL), new \Symfony\Bundle\FrameworkBundle\Validator\ConstraintValidatorFactory($this, array('doctrine.orm.validator.unique' => 'doctrine.orm.validator.unique')), array(0 => $this->get('doctrine.orm.validator_initializer')));
+        return $this->services['validator'] = new \Symfony\Component\Validator\Validator(new \Symfony\Component\Validator\Mapping\ClassMetadataFactory(new \Symfony\Component\Validator\Mapping\Loader\LoaderChain(array(0 => new \Symfony\Component\Validator\Mapping\Loader\AnnotationLoader($this->get('annotation_reader')), 1 => new \Symfony\Component\Validator\Mapping\Loader\StaticMethodLoader(), 2 => new \Symfony\Component\Validator\Mapping\Loader\XmlFilesLoader(array(0 => '/Users/pete.robinson/Sites/wam/asset/vendor/symfony/symfony/src/Symfony/Component/Form/Resources/config/validation.xml')), 3 => new \Symfony\Component\Validator\Mapping\Loader\YamlFilesLoader(array()))), NULL), new \Symfony\Bundle\FrameworkBundle\Validator\ConstraintValidatorFactory($this, array('doctrine.orm.validator.unique' => 'doctrine.orm.validator.unique')), array(0 => $this->get('doctrine.orm.validator_initializer')));
     }
 
     /**
@@ -1110,12 +1110,12 @@ class appTestDebugProjectContainer extends Container
     protected function getDefaultParameters()
     {
         return array(
-            'kernel.root_dir' => '/Users/pete.robinson/Sites/wam/tests/SupportFiles/app',
+            'kernel.root_dir' => '/Users/pete.robinson/Sites/wam/asset/tests/SupportFiles/app',
             'kernel.environment' => 'test',
             'kernel.debug' => true,
             'kernel.name' => 'app',
-            'kernel.cache_dir' => '/Users/pete.robinson/Sites/wam/tests/SupportFiles/app/../../../tmp/cache',
-            'kernel.logs_dir' => '/Users/pete.robinson/Sites/wam/tests/SupportFiles/app/../../../tmp/logs',
+            'kernel.cache_dir' => '/Users/pete.robinson/Sites/wam/asset/tests/SupportFiles/app/../../../tmp/cache',
+            'kernel.logs_dir' => '/Users/pete.robinson/Sites/wam/asset/tests/SupportFiles/app/../../../tmp/logs',
             'kernel.bundles' => array(
                 'FrameworkBundle' => 'Symfony\\Bundle\\FrameworkBundle\\FrameworkBundle',
                 'SecurityBundle' => 'Symfony\\Bundle\\SecurityBundle\\SecurityBundle',
@@ -1174,7 +1174,7 @@ class appTestDebugProjectContainer extends Container
             'translation.writer.class' => 'Symfony\\Component\\Translation\\Writer\\TranslationWriter',
             'debug.event_dispatcher.class' => 'Symfony\\Component\\HttpKernel\\Debug\\ContainerAwareTraceableEventDispatcher',
             'debug.stopwatch.class' => 'Symfony\\Component\\HttpKernel\\Debug\\Stopwatch',
-            'debug.container.dump' => '/Users/pete.robinson/Sites/wam/tests/SupportFiles/app/../../../tmp/cache/appTestDebugProjectContainer.xml',
+            'debug.container.dump' => '/Users/pete.robinson/Sites/wam/asset/tests/SupportFiles/app/../../../tmp/cache/appTestDebugProjectContainer.xml',
             'debug.controller_resolver.class' => 'Symfony\\Bundle\\FrameworkBundle\\Controller\\TraceableControllerResolver',
             'kernel.secret' => 'something',
             'kernel.trusted_proxies' => array(
@@ -1199,7 +1199,7 @@ class appTestDebugProjectContainer extends Container
             'session.storage.options' => array(
 
             ),
-            'session.save_path' => '/Users/pete.robinson/Sites/wam/tests/SupportFiles/app/../../../tmp/cache/sessions',
+            'session.save_path' => '/Users/pete.robinson/Sites/wam/asset/tests/SupportFiles/app/../../../tmp/cache/sessions',
             'validator.class' => 'Symfony\\Component\\Validator\\Validator',
             'validator.mapping.class_metadata_factory.class' => 'Symfony\\Component\\Validator\\Mapping\\ClassMetadataFactory',
             'validator.mapping.cache.apc.class' => 'Symfony\\Component\\Validator\\Mapping\\Cache\\ApcCache',
@@ -1211,7 +1211,7 @@ class appTestDebugProjectContainer extends Container
             'validator.mapping.loader.yaml_files_loader.class' => 'Symfony\\Component\\Validator\\Mapping\\Loader\\YamlFilesLoader',
             'validator.validator_factory.class' => 'Symfony\\Bundle\\FrameworkBundle\\Validator\\ConstraintValidatorFactory',
             'validator.mapping.loader.xml_files_loader.mapping_files' => array(
-                0 => '/Users/pete.robinson/Sites/wam/vendor/symfony/symfony/src/Symfony/Component/Form/Resources/config/validation.xml',
+                0 => '/Users/pete.robinson/Sites/wam/asset/vendor/symfony/symfony/src/Symfony/Component/Form/Resources/config/validation.xml',
             ),
             'validator.mapping.loader.yaml_files_loader.mapping_files' => array(
 
@@ -1235,7 +1235,7 @@ class appTestDebugProjectContainer extends Container
             'router_listener.class' => 'Symfony\\Component\\HttpKernel\\EventListener\\RouterListener',
             'router.request_context.host' => 'localhost',
             'router.request_context.scheme' => 'http',
-            'router.resource' => '/Users/pete.robinson/Sites/wam/tests/SupportFiles/app/config/routing.yml',
+            'router.resource' => '/Users/pete.robinson/Sites/wam/asset/tests/SupportFiles/app/config/routing.yml',
             'request_listener.http_port' => 80,
             'request_listener.https_port' => 443,
             'annotations.reader.class' => 'Doctrine\\Common\\Annotations\\AnnotationReader',
@@ -1297,7 +1297,7 @@ class appTestDebugProjectContainer extends Container
             'doctrine.orm.naming_strategy.default.class' => 'Doctrine\\ORM\\Mapping\\DefaultNamingStrategy',
             'doctrine.orm.naming_strategy.underscore.class' => 'Doctrine\\ORM\\Mapping\\UnderscoreNamingStrategy',
             'doctrine.orm.auto_generate_proxy_classes' => true,
-            'doctrine.orm.proxy_dir' => '/Users/pete.robinson/Sites/wam/tests/SupportFiles/app/../../../tmp/cache/doctrine/orm/Proxies',
+            'doctrine.orm.proxy_dir' => '/Users/pete.robinson/Sites/wam/asset/tests/SupportFiles/app/../../../tmp/cache/doctrine/orm/Proxies',
             'doctrine.orm.proxy_namespace' => 'Proxies',
         );
     }
