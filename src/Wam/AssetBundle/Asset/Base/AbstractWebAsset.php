@@ -42,7 +42,7 @@ class AbstractWebAsset
 		$this->setName($name);
 		$this->setPath($path);
 
-		$real_path = (substr(realpath($real_path), strlen($real_path)-1, 1) == '/') ? realpath($real_path) . $path : realpath($real_path) . '/' . $path;
+		$real_path = (substr($real_path, strlen($real_path)-1, 1) == '/') ? $real_path . $path : $real_path . '/' . $path;
 		$this->setRealPath($real_path);
 	}
 
