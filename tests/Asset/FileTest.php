@@ -67,4 +67,18 @@ class FileTest extends WamTestCase
 		$this->assertTrue($this->file->getIsUpload());
 	}
 
+	public function testPathResolvesFromAbsolute()
+	{
+		$file = new File('/Users/pete.robinson/Sites/wam/asset/tmp/files/logo.jpg', true);
+
+		$this->assertEquals($file->getRootPath(), '/Users/pete.robinson/Sites/wam/asset/tests/SupportFiles/../../tmp/files/logo.jpg');
+	}
+
+	public function testPathResolvesFromAbsoluteInSameDir()
+	{
+		$file = new File('/Users/pete.robinson/Sites/wam/asset/tests/SupportFiles/test.jpg', true);
+
+		$this->assertEquals($file->getRootPath(), '/Users/pete.robinson/Sites/wam/asset/tests/SupportFiles/./test.jpg');
+	}
+
 }

@@ -33,10 +33,14 @@ abstract class AbstractWebAsset
 	/**
 	 * constructor
 	 * @param string $path
+	 * @param bollean $absolute
 	 * @return void
 	 **/
-	public function __construct($path)
+	public function __construct($path, $absolute = false)
 	{
+		if($absolute) {
+			$path = $this->getPathFromAbsolute($path);
+		}
 		$this->storeValues($path);
 	}
 
@@ -135,6 +139,44 @@ abstract class AbstractWebAsset
 			return dirname($this->getRootPath());
 		}
 	}
+
+	/**
+	 * get path from absolute path
+	 * @param string $path
+	 * @return string
+	 **/
+	protected function getPathFromAbsolute($path)
+	{
+		$root_array = explode('/', $_SERVER['KERNEL_ROOT_PATH'] . '/');
+		$path_array = explode('/', $path);
+		$rel_path = $path_array;
+
+		foreach($root_array as $depth => $dir) {
+			// check to see if the value at the pointer is the same as the value at the same pointer on path array
+			if($dir === $path_array[$depth]) {
+				// if it is, ignore this directory and remove it from the array
+				array_shift($rel_path);
+			} else {
+				// otherwise, find number of remaining dirs to end of root array
+				$remaining = count($root_array) - $depth;
+
+				if($remaining > 1) {
+					// add .. for the amount of distance calculated above
+					$pad_length = (count($rel_path) + $remaining - 1) * -1;
+					// add that amount of keys to the beginning of the array, containing '..'
+					$rel_path = array_pad($rel_path, $pad_length, '..');
+					break;
+				} else {
+					// file is in the same dir. just add ./
+					$rel_path[0] = './' . $rel_path[0];
+				}
+			}
+		}
+		// implode array and return
+		return implode('/', $rel_path);
+	}
+
+	
 	
 	
 	
