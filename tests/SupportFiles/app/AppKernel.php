@@ -12,7 +12,7 @@ class AppKernel extends Kernel
             new Symfony\Bundle\SecurityBundle\SecurityBundle(),
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
-            new Acme\TestBundle\AcmeTestBundle(),
+			new Acme\TestBundle\AcmeTestBundle(),
             new Wam\AssetBundle\WamAssetBundle()
         );
 

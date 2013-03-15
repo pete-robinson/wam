@@ -23,8 +23,6 @@ class WamAssetExtension extends Extension
 	{
 		$loader = new XmlFileLoader($container, new FileLocator(array(__DIR__ . '/../Resources/config')));
 		$loader->load('services.xml');
-
-		$_SERVER['KERNEL_ROOT_PATH'] = realpath($container->getParameter('kernel.root_dir') . '/../');
 	}
 
 

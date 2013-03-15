@@ -62,6 +62,7 @@ class Wam extends AbstractContainerAware
 	 **/
 	public function initialize()
 	{
+		$_SERVER['KERNEL_ROOT_PATH'] = realpath($this->getContainer()->getParameter('kernel.root_dir') . '/../');
 		$this->em = $this->getContainer()->get('doctrine')->getManager();
 	}
 
