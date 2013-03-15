@@ -37,6 +37,12 @@
     <parameter key="cache_warmer.class">Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerAggregate</parameter>
     <parameter key="cache_clearer.class">Symfony\Component\HttpKernel\CacheClearer\ChainCacheClearer</parameter>
     <parameter key="file_locator.class">Symfony\Component\HttpKernel\Config\FileLocator</parameter>
+    <parameter key="uri_signer.class">Symfony\Component\HttpKernel\UriSigner</parameter>
+    <parameter key="fragment.handler.class">Symfony\Component\HttpKernel\Fragment\FragmentHandler</parameter>
+    <parameter key="fragment.renderer.inline.class">Symfony\Component\HttpKernel\Fragment\InlineFragmentRenderer</parameter>
+    <parameter key="fragment.renderer.hinclude.class">Symfony\Bundle\FrameworkBundle\Fragment\ContainerAwareHIncludeFragmentRenderer</parameter>
+    <parameter key="fragment.renderer.hinclude.global_template"></parameter>
+    <parameter key="fragment.path">/_fragment</parameter>
     <parameter key="translator.class">Symfony\Bundle\FrameworkBundle\Translation\Translator</parameter>
     <parameter key="translator.identity.class">Symfony\Component\Translation\IdentityTranslator</parameter>
     <parameter key="translator.selector.class">Symfony\Component\Translation\MessageSelector</parameter>
@@ -45,7 +51,7 @@
     <parameter key="translation.loader.xliff.class">Symfony\Component\Translation\Loader\XliffFileLoader</parameter>
     <parameter key="translation.loader.po.class">Symfony\Component\Translation\Loader\PoFileLoader</parameter>
     <parameter key="translation.loader.mo.class">Symfony\Component\Translation\Loader\MoFileLoader</parameter>
-    <parameter key="translation.loader.qt.class">Symfony\Component\Translation\Loader\QtTranslationsLoader</parameter>
+    <parameter key="translation.loader.qt.class">Symfony\Component\Translation\Loader\QtFileLoader</parameter>
     <parameter key="translation.loader.csv.class">Symfony\Component\Translation\Loader\CsvFileLoader</parameter>
     <parameter key="translation.loader.res.class">Symfony\Component\Translation\Loader\IcuResFileLoader</parameter>
     <parameter key="translation.loader.dat.class">Symfony\Component\Translation\Loader\IcuDatFileLoader</parameter>
@@ -63,10 +69,11 @@
     <parameter key="translation.loader.class">Symfony\Bundle\FrameworkBundle\Translation\TranslationLoader</parameter>
     <parameter key="translation.extractor.class">Symfony\Component\Translation\Extractor\ChainExtractor</parameter>
     <parameter key="translation.writer.class">Symfony\Component\Translation\Writer\TranslationWriter</parameter>
-    <parameter key="debug.event_dispatcher.class">Symfony\Component\HttpKernel\Debug\ContainerAwareTraceableEventDispatcher</parameter>
-    <parameter key="debug.stopwatch.class">Symfony\Component\HttpKernel\Debug\Stopwatch</parameter>
+    <parameter key="debug.event_dispatcher.class">Symfony\Component\HttpKernel\Debug\TraceableEventDispatcher</parameter>
+    <parameter key="debug.stopwatch.class">Symfony\Component\Stopwatch\Stopwatch</parameter>
     <parameter key="debug.container.dump">/Users/pete.robinson/Sites/wam/asset/tests/SupportFiles/app/../../../tmp/cache/appTestDebugProjectContainer.xml</parameter>
-    <parameter key="debug.controller_resolver.class">Symfony\Bundle\FrameworkBundle\Controller\TraceableControllerResolver</parameter>
+    <parameter key="debug.controller_resolver.class">Symfony\Component\HttpKernel\Controller\TraceableControllerResolver</parameter>
+    <parameter key="debug.deprecation_logger_listener.class">Symfony\Component\HttpKernel\EventListener\DeprecationLoggerListener</parameter>
     <parameter key="kernel.secret">something</parameter>
     <parameter key="kernel.trusted_proxies" type="collection"/>
     <parameter key="kernel.trust_proxy_headers">false</parameter>
@@ -99,6 +106,23 @@
       <parameter>/Users/pete.robinson/Sites/wam/asset/vendor/symfony/symfony/src/Symfony/Component/Form/Resources/config/validation.xml</parameter>
     </parameter>
     <parameter key="validator.mapping.loader.yaml_files_loader.mapping_files" type="collection"/>
+    <parameter key="validator.translation_domain">validators</parameter>
+    <parameter key="profiler.class">Symfony\Component\HttpKernel\Profiler\Profiler</parameter>
+    <parameter key="profiler_listener.class">Symfony\Component\HttpKernel\EventListener\ProfilerListener</parameter>
+    <parameter key="data_collector.config.class">Symfony\Component\HttpKernel\DataCollector\ConfigDataCollector</parameter>
+    <parameter key="data_collector.request.class">Symfony\Component\HttpKernel\DataCollector\RequestDataCollector</parameter>
+    <parameter key="data_collector.exception.class">Symfony\Component\HttpKernel\DataCollector\ExceptionDataCollector</parameter>
+    <parameter key="data_collector.events.class">Symfony\Component\HttpKernel\DataCollector\EventDataCollector</parameter>
+    <parameter key="data_collector.logger.class">Symfony\Component\HttpKernel\DataCollector\LoggerDataCollector</parameter>
+    <parameter key="data_collector.time.class">Symfony\Component\HttpKernel\DataCollector\TimeDataCollector</parameter>
+    <parameter key="data_collector.memory.class">Symfony\Component\HttpKernel\DataCollector\MemoryDataCollector</parameter>
+    <parameter key="data_collector.router.class">Symfony\Bundle\FrameworkBundle\DataCollector\RouterDataCollector</parameter>
+    <parameter key="profiler_listener.only_exceptions">false</parameter>
+    <parameter key="profiler_listener.only_master_requests">false</parameter>
+    <parameter key="profiler.storage.dsn">file:/Users/pete.robinson/Sites/wam/asset/tests/SupportFiles/app/../../../tmp/cache/profiler</parameter>
+    <parameter key="profiler.storage.username"></parameter>
+    <parameter key="profiler.storage.password"></parameter>
+    <parameter key="profiler.storage.lifetime">86400</parameter>
     <parameter key="router.class">Symfony\Bundle\FrameworkBundle\Routing\Router</parameter>
     <parameter key="router.request_context.class">Symfony\Component\Routing\RequestContext</parameter>
     <parameter key="routing.loader.class">Symfony\Bundle\FrameworkBundle\Routing\DelegatingLoader</parameter>
@@ -118,6 +142,7 @@
     <parameter key="router_listener.class">Symfony\Component\HttpKernel\EventListener\RouterListener</parameter>
     <parameter key="router.request_context.host">localhost</parameter>
     <parameter key="router.request_context.scheme">http</parameter>
+    <parameter key="router.request_context.base_url"></parameter>
     <parameter key="router.resource">/Users/pete.robinson/Sites/wam/asset/tests/SupportFiles/app/config/routing.yml</parameter>
     <parameter key="request_listener.http_port">80</parameter>
     <parameter key="request_listener.https_port">443</parameter>
@@ -128,7 +153,7 @@
     <parameter key="doctrine.dbal.logger.profiling.class">Doctrine\DBAL\Logging\DebugStack</parameter>
     <parameter key="doctrine.dbal.logger.class">Symfony\Bridge\Doctrine\Logger\DbalLogger</parameter>
     <parameter key="doctrine.dbal.configuration.class">Doctrine\DBAL\Configuration</parameter>
-    <parameter key="doctrine.data_collector.class">Symfony\Bridge\Doctrine\DataCollector\DoctrineDataCollector</parameter>
+    <parameter key="doctrine.data_collector.class">Doctrine\Bundle\DoctrineBundle\DataCollector\DoctrineDataCollector</parameter>
     <parameter key="doctrine.dbal.connection.event_manager.class">Symfony\Bridge\Doctrine\ContainerAwareEventManager</parameter>
     <parameter key="doctrine.dbal.connection_factory.class">Doctrine\Bundle\DoctrineBundle\ConnectionFactory</parameter>
     <parameter key="doctrine.dbal.events.mysql_session_init.class">Doctrine\DBAL\Event\Listeners\MysqlSessionInit</parameter>
@@ -180,18 +205,49 @@
     <parameter key="doctrine.orm.auto_generate_proxy_classes">true</parameter>
     <parameter key="doctrine.orm.proxy_dir">/Users/pete.robinson/Sites/wam/asset/tests/SupportFiles/app/../../../tmp/cache/doctrine/orm/Proxies</parameter>
     <parameter key="doctrine.orm.proxy_namespace">Proxies</parameter>
+    <parameter key="data_collector.templates" type="collection">
+      <parameter key="data_collector.config" type="collection">
+        <parameter>config</parameter>
+        <parameter>@WebProfiler/Collector/config.html.twig</parameter>
+      </parameter>
+      <parameter key="data_collector.request" type="collection">
+        <parameter>request</parameter>
+        <parameter>@WebProfiler/Collector/request.html.twig</parameter>
+      </parameter>
+      <parameter key="data_collector.exception" type="collection">
+        <parameter>exception</parameter>
+        <parameter>@WebProfiler/Collector/exception.html.twig</parameter>
+      </parameter>
+      <parameter key="data_collector.events" type="collection">
+        <parameter>events</parameter>
+        <parameter>@WebProfiler/Collector/events.html.twig</parameter>
+      </parameter>
+      <parameter key="data_collector.logger" type="collection">
+        <parameter>logger</parameter>
+        <parameter>@WebProfiler/Collector/logger.html.twig</parameter>
+      </parameter>
+      <parameter key="data_collector.time" type="collection">
+        <parameter>time</parameter>
+        <parameter>@WebProfiler/Collector/time.html.twig</parameter>
+      </parameter>
+      <parameter key="data_collector.memory" type="collection">
+        <parameter>memory</parameter>
+        <parameter>@WebProfiler/Collector/memory.html.twig</parameter>
+      </parameter>
+      <parameter key="data_collector.router" type="collection">
+        <parameter>router</parameter>
+        <parameter>@WebProfiler/Collector/router.html.twig</parameter>
+      </parameter>
+      <parameter key="data_collector.doctrine" type="collection">
+        <parameter>db</parameter>
+        <parameter>DoctrineBundle:Collector:db</parameter>
+      </parameter>
+    </parameter>
   </parameters>
   <services>
     <service id="controller_name_converter" class="Symfony\Bundle\FrameworkBundle\Controller\ControllerNameParser" public="false">
       <tag name="monolog.logger" channel="request"/>
       <argument type="service" id="kernel"/>
-    </service>
-    <service id="controller_resolver" class="Symfony\Bundle\FrameworkBundle\Controller\TraceableControllerResolver">
-      <tag name="monolog.logger" channel="request"/>
-      <argument type="service" id="service_container"/>
-      <argument type="service" id="controller_name_converter"/>
-      <argument type="service" id="debug.stopwatch"/>
-      <argument>null</argument>
     </service>
     <service id="response_listener" class="Symfony\Component\HttpKernel\EventListener\ResponseListener">
       <tag name="kernel.event_subscriber"/>
@@ -205,11 +261,16 @@
       <argument>Europe ondon</argument>
       <argument type="service" id="router"/>
     </service>
-    <service id="event_dispatcher" class="Symfony\Component\HttpKernel\Debug\ContainerAwareTraceableEventDispatcher">
-      <tag name="monolog.logger" channel="event"/>
+    <service id="event_dispatcher" class="Symfony\Component\EventDispatcher\ContainerAwareEventDispatcher">
       <argument type="service" id="service_container"/>
-      <argument type="service" id="debug.stopwatch"/>
-      <argument>null</argument>
+      <call method="addListenerService">
+        <argument>kernel.controller</argument>
+        <argument type="collection">
+          <argument>data_collector.router</argument>
+          <argument>onKernelController</argument>
+        </argument>
+        <argument>0</argument>
+      </call>
       <call method="addSubscriberService">
         <argument>response_listener</argument>
         <argument>Symfony\Component\HttpKernel\EventListener\ResponseListener</argument>
@@ -223,6 +284,14 @@
         <argument>Symfony\Component\HttpKernel\EventListener\LocaleListener</argument>
       </call>
       <call method="addSubscriberService">
+        <argument>fragment.handler</argument>
+        <argument>Symfony\Component\HttpKernel\Fragment\FragmentHandler</argument>
+      </call>
+      <call method="addSubscriberService">
+        <argument>debug.deprecation_logger_listener</argument>
+        <argument>Symfony\Component\HttpKernel\EventListener\DeprecationLoggerListener</argument>
+      </call>
+      <call method="addSubscriberService">
         <argument>test.session.listener</argument>
         <argument>Symfony\Bundle\FrameworkBundle\EventListener\TestSessionListener</argument>
       </call>
@@ -231,14 +300,22 @@
         <argument>Symfony\Bundle\FrameworkBundle\EventListener\SessionListener</argument>
       </call>
       <call method="addSubscriberService">
+        <argument>profiler_listener</argument>
+        <argument>Symfony\Component\HttpKernel\EventListener\ProfilerListener</argument>
+      </call>
+      <call method="addSubscriberService">
+        <argument>data_collector.request</argument>
+        <argument>Symfony\Component\HttpKernel\DataCollector\RequestDataCollector</argument>
+      </call>
+      <call method="addSubscriberService">
         <argument>router_listener</argument>
         <argument>Symfony\Component\HttpKernel\EventListener\RouterListener</argument>
       </call>
     </service>
     <service id="http_kernel" class="Symfony\Bundle\FrameworkBundle\HttpKernel">
-      <argument type="service" id="event_dispatcher"/>
+      <argument type="service" id="debug.event_dispatcher"/>
       <argument type="service" id="service_container"/>
-      <argument type="service" id="controller_resolver"/>
+      <argument type="service" id="debug.controller_resolver"/>
     </service>
     <service id="cache_warmer" class="Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerAggregate">
       <argument type="collection">
@@ -266,6 +343,36 @@
     <service id="file_locator" class="Symfony\Component\HttpKernel\Config\FileLocator">
       <argument type="service" id="kernel"/>
       <argument>/Users/pete.robinson/Sites/wam/asset/tests/SupportFiles/app/Resources</argument>
+    </service>
+    <service id="uri_signer" class="Symfony\Component\HttpKernel\UriSigner">
+      <argument>something</argument>
+    </service>
+    <service id="fragment.handler" class="Symfony\Component\HttpKernel\Fragment\FragmentHandler">
+      <tag name="kernel.event_subscriber"/>
+      <argument type="collection"/>
+      <argument>true</argument>
+      <call method="addRenderer">
+        <argument type="service" id="fragment.renderer.inline"/>
+      </call>
+      <call method="addRenderer">
+        <argument type="service" id="fragment.renderer.hinclude"/>
+      </call>
+    </service>
+    <service id="fragment.renderer.inline" class="Symfony\Component\HttpKernel\Fragment\InlineFragmentRenderer">
+      <tag name="kernel.fragment_renderer"/>
+      <argument type="service" id="http_kernel"/>
+      <call method="setFragmentPath">
+        <argument>/_fragment</argument>
+      </call>
+    </service>
+    <service id="fragment.renderer.hinclude" class="Symfony\Bundle\FrameworkBundle\Fragment\ContainerAwareHIncludeFragmentRenderer">
+      <tag name="kernel.fragment_renderer"/>
+      <argument type="service" id="service_container"/>
+      <argument type="service" id="uri_signer"/>
+      <argument></argument>
+      <call method="setFragmentPath">
+        <argument>/_fragment</argument>
+      </call>
     </service>
     <service id="translator.default" class="Symfony\Bundle\FrameworkBundle\Translation\Translator">
       <argument type="service" id="service_container"/>
@@ -327,7 +434,7 @@
     <service id="translation.loader.mo" class="Symfony\Component\Translation\Loader\MoFileLoader">
       <tag name="translation.loader" alias="mo"/>
     </service>
-    <service id="translation.loader.qt" class="Symfony\Component\Translation\Loader\QtTranslationsLoader">
+    <service id="translation.loader.qt" class="Symfony\Component\Translation\Loader\QtFileLoader">
       <tag name="translation.loader" alias="ts"/>
     </service>
     <service id="translation.loader.csv" class="Symfony\Component\Translation\Loader\CsvFileLoader">
@@ -462,7 +569,32 @@
         <argument type="service" id="translation.dumper.res"/>
       </call>
     </service>
-    <service id="debug.stopwatch" class="Symfony\Component\HttpKernel\Debug\Stopwatch"/>
+    <service id="debug.stopwatch" class="Symfony\Component\Stopwatch\Stopwatch"/>
+    <service id="debug.event_dispatcher" class="Symfony\Component\HttpKernel\Debug\TraceableEventDispatcher">
+      <tag name="monolog.logger" channel="event"/>
+      <argument type="service" id="event_dispatcher"/>
+      <argument type="service" id="debug.stopwatch"/>
+      <argument>null</argument>
+      <call method="setProfiler">
+        <argument type="service" id="profiler"/>
+      </call>
+    </service>
+    <service id="debug.controller_resolver" class="Symfony\Component\HttpKernel\Controller\TraceableControllerResolver">
+      <argument type="service">
+        <service class="Symfony\Bundle\FrameworkBundle\Controller\ControllerResolver" public="false">
+          <tag name="monolog.logger" channel="request"/>
+          <argument type="service" id="service_container"/>
+          <argument type="service" id="controller_name_converter"/>
+          <argument>null</argument>
+        </service>
+      </argument>
+      <argument type="service" id="debug.stopwatch"/>
+    </service>
+    <service id="debug.deprecation_logger_listener" class="Symfony\Component\HttpKernel\EventListener\DeprecationLoggerListener">
+      <tag name="kernel.event_subscriber"/>
+      <tag name="monolog.logger" channel="deprecation"/>
+      <argument>null</argument>
+    </service>
     <service id="test.client" class="Symfony\Bundle\FrameworkBundle\Client" scope="prototype">
       <argument type="service" id="kernel"/>
       <argument type="collection"/>
@@ -536,9 +668,105 @@
           </argument>
         </service>
       </argument>
+      <argument type="service" id="translator.default"/>
+      <argument>validators</argument>
       <argument type="collection">
         <argument type="service" id="doctrine.orm.validator_initializer"/>
       </argument>
+    </service>
+    <service id="profiler" class="Symfony\Component\HttpKernel\Profiler\Profiler">
+      <tag name="monolog.logger" channel="profiler"/>
+      <argument type="service">
+        <service class="Symfony\Component\HttpKernel\Profiler\FileProfilerStorage" public="false">
+          <argument>file:/Users/pete.robinson/Sites/wam/asset/tests/SupportFiles/app/../../../tmp/cache/profiler</argument>
+          <argument></argument>
+          <argument></argument>
+          <argument>86400</argument>
+        </service>
+      </argument>
+      <argument>null</argument>
+      <call method="disable"/>
+      <call method="add">
+        <argument type="service">
+          <service class="Symfony\Component\HttpKernel\DataCollector\ConfigDataCollector" public="false">
+            <tag name="data_collector" template="@WebProfiler/Collector/config.html.twig" id="config" priority="255"/>
+            <call method="setKernel">
+              <argument type="service" id="kernel"/>
+            </call>
+          </service>
+        </argument>
+      </call>
+      <call method="add">
+        <argument type="service" id="data_collector.request"/>
+      </call>
+      <call method="add">
+        <argument type="service">
+          <service class="Symfony\Component\HttpKernel\DataCollector\ExceptionDataCollector" public="false">
+            <tag name="data_collector" template="@WebProfiler/Collector/exception.html.twig" id="exception" priority="255"/>
+          </service>
+        </argument>
+      </call>
+      <call method="add">
+        <argument type="service">
+          <service class="Symfony\Component\HttpKernel\DataCollector\EventDataCollector" public="false">
+            <tag name="data_collector" template="@WebProfiler/Collector/events.html.twig" id="events" priority="255"/>
+          </service>
+        </argument>
+      </call>
+      <call method="add">
+        <argument type="service">
+          <service class="Symfony\Component\HttpKernel\DataCollector\LoggerDataCollector" public="false">
+            <tag name="data_collector" template="@WebProfiler/Collector/logger.html.twig" id="logger" priority="255"/>
+            <tag name="monolog.logger" channel="profiler"/>
+            <argument>null</argument>
+          </service>
+        </argument>
+      </call>
+      <call method="add">
+        <argument type="service">
+          <service class="Symfony\Component\HttpKernel\DataCollector\TimeDataCollector" public="false">
+            <tag name="data_collector" template="@WebProfiler/Collector/time.html.twig" id="time" priority="255"/>
+            <argument type="service" id="kernel"/>
+          </service>
+        </argument>
+      </call>
+      <call method="add">
+        <argument type="service">
+          <service class="Symfony\Component\HttpKernel\DataCollector\MemoryDataCollector" public="false">
+            <tag name="data_collector" template="@WebProfiler/Collector/memory.html.twig" id="memory" priority="255"/>
+          </service>
+        </argument>
+      </call>
+      <call method="add">
+        <argument type="service" id="data_collector.router"/>
+      </call>
+      <call method="add">
+        <argument type="service">
+          <service class="Doctrine\Bundle\DoctrineBundle\DataCollector\DoctrineDataCollector" public="false">
+            <tag name="data_collector" template="DoctrineBundle:Collector:db" id="db"/>
+            <argument type="service" id="doctrine"/>
+            <call method="addLogger">
+              <argument>default</argument>
+              <argument type="service" id="doctrine.dbal.logger.profiling.default"/>
+            </call>
+          </service>
+        </argument>
+      </call>
+    </service>
+    <service id="profiler_listener" class="Symfony\Component\HttpKernel\EventListener\ProfilerListener">
+      <tag name="kernel.event_subscriber"/>
+      <argument type="service" id="profiler"/>
+      <argument>null</argument>
+      <argument>false</argument>
+      <argument>false</argument>
+    </service>
+    <service id="data_collector.request" class="Symfony\Component\HttpKernel\DataCollector\RequestDataCollector">
+      <tag name="kernel.event_subscriber"/>
+      <tag name="data_collector" template="@WebProfiler/Collector/request.html.twig" id="request" priority="255"/>
+    </service>
+    <service id="data_collector.router" class="Symfony\Bundle\FrameworkBundle\DataCollector\RouterDataCollector">
+      <tag name="kernel.event_listener" event="kernel.controller" method="onKernelController"/>
+      <tag name="data_collector" template="@WebProfiler/Collector/router.html.twig" id="router" priority="255"/>
     </service>
     <service id="routing.loader" class="Symfony\Bundle\FrameworkBundle\Routing\DelegatingLoader">
       <tag name="monolog.logger" channel="router"/>
@@ -602,6 +830,7 @@
       <argument>default</argument>
       <argument>default</argument>
     </service>
+    <service id="doctrine.dbal.logger.profiling.default" class="Doctrine\DBAL\Logging\DebugStack" public="false"/>
     <service id="doctrine.dbal.default_connection" class="stdClass" factory-method="createConnection" factory-service="doctrine.dbal.connection_factory">
       <argument type="collection">
         <argument key="dbname">wam</argument>
@@ -628,9 +857,7 @@
                   </argument>
                 </call>
                 <call method="addLogger">
-                  <argument type="service">
-                    <service class="Doctrine\DBAL\Logging\DebugStack" public="false"/>
-                  </argument>
+                  <argument type="service" id="doctrine.dbal.logger.profiling.default"/>
                 </call>
               </service>
             </argument>
@@ -798,8 +1025,6 @@
       <argument>/Users/pete.robinson/Sites/wam/asset/tests/SupportFiles/app/../../../tmp/cache/annotations</argument>
       <argument>true</argument>
     </service>
-    <service id="debug.event_dispatcher" alias="event_dispatcher"/>
-    <service id="debug.controller_resolver" alias="controller_resolver"/>
     <service id="session.storage" alias="session.storage.native"/>
     <service id="database_connection" alias="doctrine.dbal.default_connection"/>
     <service id="doctrine.orm.entity_manager" alias="doctrine.orm.default_entity_manager"/>

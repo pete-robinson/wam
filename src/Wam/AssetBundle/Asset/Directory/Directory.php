@@ -9,20 +9,11 @@
  
 namespace Wam\AssetBundle\Asset\Directory;
 use Wam\AssetBundle\Asset\Base\AbstractWebAsset;
-use Wam\AssetBundle\Asset\Base\WebAsset;
+use Wam\AssetBundle\Asset\Base\WebAssetInterface;
 use Wam\AssetBundle\Asset\File\File;
 
-class Directory extends AbstractWebAsset implements WebAsset
+class Directory extends AbstractWebAsset implements WebAssetInterface
 {
-
-	/**
-	 * ToString method
-	 * @return string - directory path relative to doc root ($this->path)
-	 **/
-	public function __tostring()
-	{
-		return $this->getPath();
-	}
 
 	/**
 	 * returns true if the directory exists
@@ -30,9 +21,8 @@ class Directory extends AbstractWebAsset implements WebAsset
 	 **/
 	public function exists()
 	{
-		return is_dir($this->getRealPath());
+		return is_dir($this->getRootPath());
 	}
-	
 
 	/**
 	 * create directory
@@ -40,79 +30,77 @@ class Directory extends AbstractWebAsset implements WebAsset
 	 **/
 	public function create()
 	{
-		mkdir($this->getRealPath(), 0777);
-		// nuke permissions
-		chmod($this->getRealPath(), 0777);
+		if(!$this->exists()) {
+			mkdir($this->getRootPath(), 0777);
+			chmod($this->getRootPath(), 0777);
+
+			$this->resolvePaths();
+		}
 	}
 
 	/**
-	 * delete the directory
-	 * @return bool
+	 * delete
+	 * @return void
 	 **/
 	public function delete()
 	{
-		// if the directory exists, clean it
 		if($this->exists()) {
-			$this->clean();
-			// then delete it
-			rmdir($this->getRealPath());
+			$this->deleteDirectory($this->getRootPath());
 		}
-		// return true if directory has been deleted
-		return (is_dir($this->getRealPath())) ? false : true;
 	}
 
 	/**
-	 * cleanDir
-	 * @todo write tis method
+	 * clean
+	 * @param string $directory
 	 * @return void
 	 **/
-	public function clean()
+	public function clean($directory = false)
 	{
-		$files = glob($this->getRealPath() . '/*');
+		$directory = ($directory) ? $directory : $this->getRootPath();
+
+		$files = glob(realpath($directory) . '/*');
+
 		if($files) {
 			foreach($files as $file) {
-				@unlink($file);
+				if(is_file($file)) {
+					@unlink($file);
+				}
 			}
+		}
+	}
+
+	/**
+	 * delete directory
+	 * @param string $directory
+	 * @return void
+	 **/
+	private function deleteDirectory($directory)
+	{
+		$this->clean($directory);
+
+		if(count(scandir($directory)) == 2) {
+			// dir is empty... delete
+			rmdir($directory);
+		} else {
+			$dirs = glob($directory . '/*', GLOB_ONLYDIR);
+			foreach($dirs as $dir) {
+				// clean and remove it
+				$this->deleteDirectory($dir);
+			}
+
+			$this->deleteDirectory($directory);
 		}
 	}
 
 	/**
 	 * put file into directory
-	 * @param WebAsset $asset
-	 * @return File
+	 * @param Wam\AssetBundle\Asset\File\File
+	 * @return void
 	 **/
-	public function put(WebAsset $asset)
+	public function put(File $file)
 	{
-		if($asset->isUpload()) {
-			move_uploaded_file($asset->getRealPath() . '/' . $asset->getName(), $this->getRealPath() . '/' . $asset->getName());
-		} else {
-			copy($asset->getRealPath() . '/' . $asset->getName(), $this->getRealPath() . '/' . $asset->getName());
-		}
-
-		return new File($asset->getName(), $this->getPath(), str_replace($this->getPath(), '', $this->getRealPath()));
+		return copy($file->getRootPath(), $this->getRootPath() . '/' . $file->getName());
 	}
-	
-
-	/**
-	 * list files
-	 * @param string $name
-	 * @return Wam\AssetBundle\Asset\File
-	 **/
-	public function listDir()
-	{
-		$files = glob($this->getRealPath() . '/*.*');
-		if($files) {
-			foreach($files as $file) {
-				$this->files[] = new File(basename($file), $this->getPath(), str_replace($this->getPath(), '', dirname($file)));
-			}
-		}
-
-		return $this->files;
-	}
-	
-
-
-	
 	
 
 }

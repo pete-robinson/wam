@@ -24,9 +24,9 @@ class FileTest extends WamTestCase
 	public function setUp()
 	{
 		parent::setUp();
-		$this->file = new File('logo.jpg', '', '/Users/pete.robinson/Sites/wam/asset/tmp/files');
-		$this->dir = new Directory('1', 'assets/test/1', $this->appKernel->getRootDir() . '/../web/');
-		$this->dir->clean();
+		$this->file = new File('../../tmp/files/logo.jpg');
+		$this->dir = new Directory('web/newdir');
+		$this->dir->create();
 	}
 
 	public function testFileExists()
@@ -43,32 +43,28 @@ class FileTest extends WamTestCase
 	public function testFileIsCreated()
 	{
 		$this->file->setDestination($this->dir);
-
-		$this->file->create();
 		
-		$this->assertFileExists($this->dir->getRealPath() . '/' . $this->file->getName());
+		$this->file->create();
+
+		$this->assertTrue($this->file->exists());
 	}
 
 	public function testFileIsDeleted()
 	{
 		$this->file->setDestination($this->dir);
-		$file = $this->file->create();
-
-		$this->assertTrue($file->exists());
-		$file->delete();
 		
-		$this->assertFalse($file->exists());
-	}
-
-	public function testToString()
-	{
-		$this->assertEquals((string) $this->file, 'logo.jpg');
+		$this->file->create();
+		
+		$this->assertTrue($this->file->exists());
+		$this->file->delete();
+		
+		$this->assertFalse($this->file->exists());
 	}
 
 	public function testIsUpload()
 	{
 		$this->file->setIsUpload(true);
-		$this->assertTrue($this->file->isUpload());
+		$this->assertTrue($this->file->getIsUpload());
 	}
 
 }

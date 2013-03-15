@@ -16,7 +16,6 @@ use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
-
 class WamAssetExtension extends Extension
 {
 
@@ -24,6 +23,8 @@ class WamAssetExtension extends Extension
 	{
 		$loader = new XmlFileLoader($container, new FileLocator(array(__DIR__ . '/../Resources/config')));
 		$loader->load('services.xml');
+
+		$_SERVER['KERNEL_ROOT_PATH'] = realpath($container->getParameter('kernel.root_dir') . '/../');
 	}
 
 

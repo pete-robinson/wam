@@ -1,3 +1,5 @@
 vendor
 composer.lock
+tmp/logs/*
+tmp/phpunit/*
 */.DS_Store

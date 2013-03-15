@@ -9,30 +9,16 @@
  
 namespace Wam\AssetBundle\Asset\Base;
 
-interface WebAsset
+interface WebAssetInterface
 {
-
 	/**
-	 * tostring method
-	 * @return string
-	 **/
-	public function __tostring();
-	
-
-	/**
-	 * returns true if the directory exists
+	 * returns true if the file/directory exists
 	 * @return string
 	 **/
 	public function exists();
 
 	/**
-	 * create asset
-	 * @return void
-	 **/
-	public function create();
-
-	/**
-	 * deletes the asset
+	 * delete the asset
 	 * @return void
 	 **/
 	public function delete();

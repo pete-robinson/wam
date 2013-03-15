@@ -11,7 +11,7 @@ namespace Wam\AssetBundle\Entity\Base;
 use Wam\AssetBundle\Asset\Directory\Directory;
 use Doctrine\ORM\EntityManager;
 
-class AbstractEntity
+abstract class AbstractEntity
 {
 	/**
 	 * Entity Manager
@@ -96,11 +96,14 @@ class AbstractEntity
 	public function mapDirectories()
 	{
 		$this->assets = array();
-
+		$arr = explode('/', $this->rootDir);
+		$results = array_filter($arr, 'strlen');
+		$web_root = end($results);
+		
 		foreach($this->dirs as $dir) {
-			$d = str_replace('{' . $this->primaryField . '}', $this->primaryKey, $dir);
+			$d = str_replace('//', '/', $web_root . '/' . $this->assetDir . '/' . str_replace('{' . $this->primaryField . '}', $this->primaryKey, $dir));
 
-			$this->assets[] = new Directory(basename($d), $this->assetDir . $d, $this->rootDir);
+			$this->assets[] = new Directory($d);
 		}
 	}
 

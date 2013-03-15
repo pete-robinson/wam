@@ -54,6 +54,8 @@ class WamTestCase extends WebTestCase
 	{
 		parent::setUp();
 
+		$_SERVER['DOCUMENT_ROOT'] = realpath(__DIR__ . '/SupportFiles/web');
+
 		$this->appKernel = $this->createKernel();
 		$this->appKernel->boot();
 

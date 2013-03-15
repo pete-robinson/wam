@@ -9,7 +9,7 @@
  
 namespace Wam\AssetBundle\Asset\Base;
 
-class AbstractWebAsset
+abstract class AbstractWebAsset
 {
 
 	/**
@@ -19,42 +19,47 @@ class AbstractWebAsset
 	protected $name;
 
 	/**
-	 * Path to the directory from doc root
+	 * Path to the directory from server root
 	 * @var string
 	 **/
-	protected $path;
+	protected $rootPath;
 
 	/**
-	 * path to the directory from server root
+	 * path to the directory from web root
 	 * @var string
 	 **/
-	protected $realPath;
+	protected $webPath;
 
 	/**
-	 * constructor - accepts arguments to allow for one-line configuration
-	 * @param string $name - name of the directory
-	 * @param string $path - path of the directory (from doc root)
-	 * @param string $real_path - path of the directory (from server root)
+	 * constructor
+	 * @param string $path
 	 * @return void
 	 **/
-	public function __construct($name, $path, $real_path)
+	public function __construct($path)
 	{
-		$this->setName($name);
-		$this->setPath($path);
+		$this->storeValues($path);
+	}
 
-		$real_path = (substr($real_path, strlen($real_path)-1, 1) == '/') ? $real_path . $path : $real_path . '/' . $path;
-		$this->setRealPath($real_path);
+	/**
+	 * store values
+	 * @param string $path
+	 * @return void
+	 **/
+	public function storeValues($path)
+	{
+		$this->setName(basename($path));
+		$this->setRootPath($path);
+		$this->setWebPath($this->getRootPath());
 	}
 
 	/**
 	 * set name
 	 * @param string $name
-	 * @return Wam\AssetBundle\Asset\Directory
+	 * @return void
 	 **/
 	public function setName($name)
 	{
 		$this->name = $name;
-		return $this;
 	}
 
 	/**
@@ -67,44 +72,70 @@ class AbstractWebAsset
 	}
 
 	/**
-	 * set path
-	 * @param string $path
-	 * @return Wam\AssetBundle\Asset\Directory
+	 * set root path
+	 * @param string $rootPath
+	 * @return void
 	 **/
-	public function setPath($path)
+	public function setRootPath($rootPath)
 	{
-		$this->path = $path;
-		return $this;
+		$this->rootPath = realpath($_SERVER['KERNEL_ROOT_PATH']) . '/' . $rootPath;
 	}
 
 	/**
-	 * get path
+	 * get root path
 	 * @return string
 	 **/
-	public function getPath($real = false)
+	public function getRootPath()
 	{
-		return ($real) ? $this->getRealPath() : $this->path;
+		return $this->rootPath;
 	}
 
 	/**
-	 * set real path
-	 * @param string $real_path
-	 * @return Wam\AssetBundle\Asset\Directory
+	 * set web path
+	 * @param string $webPath
+	 * @return void
 	 **/
-	public function setRealPath($real_path)
+	public function setWebPath($webPath)
 	{
-		$this->realPath = $real_path;
-		return $this;
+		if($this->exists()) {
+			if(isset($_SERVER['KERNEL_ROOT_PATH']) && $_SERVER['KERNEL_ROOT_PATH'] != '') {
+				if(realpath($webPath) && strpos(realpath($webPath), $_SERVER['KERNEL_ROOT_PATH']) !== false) {
+					$this->webPath = str_replace($_SERVER['KERNEL_ROOT_PATH'], '', $webPath);
+				}
+			}
+		}
 	}
 
 	/**
-	 * get real path
+	 * resolve path
+	 * @return void
+	 **/
+	public function resolvePaths()
+	{
+		$this->setWebPath($this->getRootPath());
+	}
+	
+
+	/**
+	 * get web path
 	 * @return string
 	 **/
-	public function getRealPath()
+	public function getWebPath()
 	{
-		return $this->realPath;
+		return $this->webPath;
 	}
+
+	/**
+	 * get parent dir
+	 * @return string
+	 **/
+	public function getParentDir()
+	{
+		if($this->exists()) {
+			return dirname($this->getRootPath());
+		}
+	}
+	
 	
 	
 

@@ -23,10 +23,13 @@ class DirectoryTest extends WamTestCase
 
 	private $path = 'assets/test/1';
 
+	private $testDirName = 'newdir';
+
 	public function setUp()
 	{
 		parent::setUp();
-		$this->dir = new Directory($this->dirName, $this->path, $this->appKernel->getRootDir() . '/../web/');
+		$this->dir = new Directory('web/' . $this->testDirName);
+		$this->dir->create();
 	}
 
 	/**
@@ -36,9 +39,7 @@ class DirectoryTest extends WamTestCase
 	 **/
 	public function testSetName()
 	{
-		$name = 'newdir';
-		$this->dir->setName($name);
-		$this->assertEquals($this->dir->getName(), $name);
+		$this->assertEquals($this->dir->getName(), $this->testDirName);
 	}
 
 	/**
@@ -47,22 +48,10 @@ class DirectoryTest extends WamTestCase
 	 **/
 	public function testCreateAndDelete()
 	{
-		$this->dir->delete();
-
-		$this->dir->create();
 		$this->assertTrue($this->dir->exists());
 
 		$this->dir->delete();
 		$this->assertFalse($this->dir->exists());
-	}
-
-	/**
-	 * test to string
-	 * @return void
-	 **/
-	public function testToString()
-	{
-		$this->assertEquals((string) $this->dir, $this->dir->getPath());
 	}
 
 	/**
@@ -72,7 +61,7 @@ class DirectoryTest extends WamTestCase
 	 **/
 	public function testGetPath()
 	{
-		$this->assertEquals($this->dir->getPath(), $this->path);
+		$this->assertEquals($this->dir->getWebPath(), '/web/' . $this->testDirName);
 	}
 
 	/**
@@ -81,15 +70,15 @@ class DirectoryTest extends WamTestCase
 	 **/
 	public function testCleanDir()
 	{
-		$this->dir->create();
 		$file = __DIR__ . '/../../tmp/files/logo.jpg';
-		copy($file, $this->dir->getRealPath() . '/' . basename($file));
 
-		$this->assertTrue(file_exists($this->dir->getRealPath() . '/' . basename($file)));
+		copy($file, $this->dir->getRootPath() . '/' . basename($file));
+
+		$this->assertTrue(file_exists($this->dir->getRootPath() . '/' . basename($file)));
 
 		$this->dir->clean();
 
-		$this->assertFalse(file_exists($this->dir->getRealPath() . '/' . basename($file)));
+		$this->assertFalse(file_exists($this->dir->getRootPath() . '/' . basename($file)));
 
 		$this->dir->delete();
 	}
@@ -100,32 +89,48 @@ class DirectoryTest extends WamTestCase
 	 **/
 	public function testPut()
 	{
-		if(!$this->dir->exists()) {
-			$this->dir->create();
-		}
+		$file = new File('../../tmp/files/logo.jpg');
 
-		$file = new File('logo.jpg', '', realpath(__DIR__ . '/../../tmp/files/'));
 		$file->setDestination($this->dir);
 		$file->create();
 
-		$this->assertFileExists($this->dir->getRealPath() . '/' . $file->getName());
+		$this->assertFileExists($this->dir->getRootPath() . '/' . $file->getName());
+	}
+
+	public function testGetParentDir()
+	{
+		$this->assertEquals($this->dir->getParentDir(), realpath($this->container->get('kernel')->getRootDir() . '/../web'));
+	}
+
+	public function testNoParentDirForDirectoryThatDoesntExist()
+	{
+		$dir = new Directory('web/arandomtestdirss');
+		$this->assertNull($dir->getParentDir());
+	}
+
+	public function testRecearsiveDirectoryDeletion()
+	{
+		$dir = new Directory('web/arandomtestdir');
+		$dir2 = new Directory('web/arandomtestdir/test');
+
+		$dir->create();
+		$dir2->create();
+
+		$dir->delete();
+
+		$this->assertFileNotExists($dir->getRootPath());
 	}
 
 	/**
-	 * test directory->put throws an exception 
+	 * teardown method
 	 * @return void
 	 **/
-	public function testListDirectories()
+	protected function tearDown()
 	{
-		$files = $this->dir->listDir();
-		$this->assertTrue(array_key_exists('0', $files));
-
-		$file = $files[0];
-
-		$this->assertInstanceOf('Wam\AssetBundle\Asset\File\File', $file);
-
-		$this->assertEquals($file->getName(), 'logo.jpg');
+		$this->dir->delete();
+		$this->dir->create();
 	}
+	
 
 	
 	

@@ -9,41 +9,31 @@
 
 namespace Wam\AssetBundle\Asset\File;
 use Wam\AssetBundle\Asset\Base\AbstractWebAsset;
-use Wam\AssetBundle\Asset\Base\WebAsset;
+use Wam\AssetBundle\Asset\Base\WebAssetInterface;
 use Wam\AssetBundle\Asset\Directory\Directory;
 use Wam\AssetBundle\Exception\WamException;
 
-class File extends AbstractWebAsset implements WebAsset
+class File extends AbstractWebAsset implements WebAssetInterface
 {
 	/**
-	 * Destination directory
-	 * @var Wam\Assetbundle\Asset\Directory\Directory Directory
+	 * destination
+	 * @var Wam\AssetBundle\Asset\Directory\Directory
 	 **/
-	protected $destination;
+	private $destination;
 
 	/**
 	 * is upload
 	 * @var boolean
 	 **/
-	protected $isUpload = false;
+	private $isUpload = false;
 	
-
-	/**
-	 * tostring
-	 * @return string
-	 **/
-	public function __tostring()
-	{
-		return $this->getName();
-	}
-
 	/**
 	 * exists
 	 * @return boolean
 	 **/
 	public function exists()
 	{
-		return file_exists($this->getRealPath() . '/' . $this->getName());
+		return file_exists($this->getRootPath());
 	}
 
 	/**
@@ -52,11 +42,12 @@ class File extends AbstractWebAsset implements WebAsset
 	 **/
 	public function create()
 	{
-		if(!$this->getDestination()) {
-			throw new WamException('Destination not specified');
+		if($this->destination) {
+			$this->destination->put($this);
+			$this->setRootPath($this->getDestination()->getWebPath() . '/' . $this->getName());
+		} else {
+			throw new WamException('Directory not specified when moving file');
 		}
-
-		return $this->destination->put($this);
 	}
 
 	/**
@@ -66,13 +57,13 @@ class File extends AbstractWebAsset implements WebAsset
 	public function delete()
 	{
 		if($this->exists()) {
-			@unlink($this->getRealPath() . '/' . $this->getName());
+			@unlink($this->getRootPath());
 		}
 	}
 
 	/**
-	 * setDestination
-	 * @param Directory $directory
+	 * set destination
+	 * @param Wam\AssetBundle\Asset\Directory\Directory
 	 * @return void
 	 **/
 	public function setDestination(Directory $directory)
@@ -81,8 +72,8 @@ class File extends AbstractWebAsset implements WebAsset
 	}
 
 	/**
-	 * getDestination
-	 * @return Directory
+	 * get destination
+	 * @return Wam\AssetBundle\Asset\Directory\Directory
 	 **/
 	public function getDestination()
 	{
@@ -90,23 +81,24 @@ class File extends AbstractWebAsset implements WebAsset
 	}
 
 	/**
-	 * isUpload
-	 * @return bool
+	 * set is upload
+	 * @param bool $isUpload
+	 * @return void
 	 **/
-	public function isUpload()
+	public function setIsUpload($isUpload)
 	{
-		return $this->isUpload;
+		$this->isUpload = $isUpload;
 	}
 
 	/**
-	 * setIsUpload
-	 * @param boolean $is_upload
-	 * @return bool
+	 * get is uploade
+	 * @return boolean
 	 **/
-	public function setIsUpload($is_upload)
+	public function getIsUpload()
 	{
-		$this->isUpload = $is_upload;
+		return $this->isUpload;
 	}
+	
 	
 	
 

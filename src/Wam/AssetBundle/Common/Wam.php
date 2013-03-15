@@ -48,6 +48,12 @@ class Wam extends AbstractContainerAware
 	 * @var string
 	 **/
 	private $wamEntityDir = 'WamEntity';
+
+	/**
+	 * web directory
+	 * @var string
+	 **/
+	private $webDir;
 	
 
 	/**
@@ -257,7 +263,5 @@ class Wam extends AbstractContainerAware
 
 		return $this->entityPath;
 	}
-	
-
 
 }
