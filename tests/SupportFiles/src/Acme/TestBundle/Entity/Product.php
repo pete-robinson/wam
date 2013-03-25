@@ -49,7 +49,10 @@ class Product
 	protected $dirs = array(
 		'products/{id}',
 		'products/{id}/images',
-		'products/{id}/images/100',
+		array(
+			'path' => 'products/{id}/images/100',
+			'method' => 'height'
+		),
 		'products/{id}/images/200',
 		'products/{id}/images/800',
 		'products/{id}/documents'

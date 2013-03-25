@@ -81,7 +81,7 @@ class EntityCreator
 	{
 		$this->entity = $entity;
 		$this->dirs = $this->extractDirs();
-
+		
 		$this->createdEntity = new Entity($this->getEntityName());
 		$this->createdEntity->setDestinationFile($this->getAssetPath())
 			->setExtends('AbstractEntity')

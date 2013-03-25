@@ -142,31 +142,50 @@ class Property
 		$name = $this->getName();
 		$type = $this->getType();
 
-		$string = "
-	/**
-	 * $name
-	 * @var $type
-	 */
-	";
+		$string = "/**\n\t * $name\n\t * @var $type\n\t */\n\t";
 
 		if(is_array($this->getValue())) {
 			$string .= $this->getVisibility() . ' $' . $name . ' = array(' . "\n";
 			$values = $this->getValue();
 
 			foreach($values as $k => $item) {
-				$string .= "		'" . $item . "'";
-				if(isset($values[$k+1])) {
-					$string .=  ",\n";
+				if(is_array($item)) {
+					$string .= $this->arrayAsString($item);
 				} else {
-					$string .= "\n";
+					$string .= "\t\t'" . $item . "'";
 				}
+
+				$string .= (isset($values[$k+1])) ? ",\n" : "\n";
+
 			}
-			$string .= '	);';
+			$string .= "\t);";
 		} else {
 			$string .= $this->getVisibility() . ' $' . $name . " = '" . $this->getValue() . "';";
 		}
 
 		$string .= "\n";
+
+		return $string;
+	}
+
+	/**
+	 * converts a property array into a string
+	 * @param array $item
+	 * @return string
+	 **/
+	private function arrayAsString(array $item)
+	{
+		$string = "\t\tarray(\n";
+		end($item);
+		$end = key($item);
+		reset($item);
+
+		foreach($item as $node => $value) {
+			$string .= "\t\t\t'$node' => '$value'";
+			$string .= ($node == $end) ? "\n" : ",\n";
+		}
+
+		$string .= "\t\t)";
 
 		return $string;
 	}
