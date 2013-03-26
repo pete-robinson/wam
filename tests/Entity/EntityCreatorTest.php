@@ -91,7 +91,44 @@ class EntityCreatorTest extends WamTestCase
 		}
 
 		$this->assertEquals($this->ec->getDirs(), $dirs);
-	}	
+	}
+
+	/**
+	 * test get dirs
+	 * @return void
+	 **/
+	public function testGetSizes()
+	{
+		$product = $this->em->getRepository('AcmeTestBundle:Product')->find(1);
+		$entity = $this->container->get('wam')->load($product);
+		
+		$sizes = $entity->getSizeDirs();
+
+		$this->assertTrue(array_key_exists('100', $sizes));
+		$this->assertTrue(array_key_exists('200', $sizes));
+		$this->assertTrue(array_key_exists('800', $sizes));
+
+		$this->assertEquals($sizes[100]['method'], 'height');
+
+		foreach($sizes as $key => $size) {
+			$this->assertInternalType('integer', $key);
+			$this->assertTrue(array_key_exists('method', $size));
+			$this->assertTrue(array_key_exists('directory', $size));
+			$this->assertInstanceOf('Wam\AssetBundle\Asset\Directory\Directory', $size['directory']);
+		}
+	}
+
+	/**
+	 * test get created entity returns an instance of Newly Created Entity
+	 * @return void
+	 **/
+	public function testGetCreatedEntityReturnsInstanceOfNewlyCreatedEntity()
+	{
+		$ec = $this->getEntityCreator();
+		$this->assertEquals('Acme\TestBundle\WamEntity\Product', $ec->getCreatedEntity());
+	}
+	
+	
 
 	/**
 	 * get entity creator

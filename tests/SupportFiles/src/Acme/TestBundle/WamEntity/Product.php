@@ -9,9 +9,8 @@
  */
 namespace Acme\TestBundle\WamEntity;
 use Wam\AssetBundle\Entity\Base\AbstractEntity;
-use Wam\AssetBundle\Entity\Base\AssetDefinition;
 
-final class Product extends AbstractEntity implements AssetDefinition
+final class Product extends AbstractEntity
 {
 	/**
 	 * dirs
@@ -29,4 +28,5 @@ final class Product extends AbstractEntity implements AssetDefinition
 		'products/{id}/documents'
 	);
 
+	
 }

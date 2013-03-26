@@ -221,9 +221,9 @@ class Wam extends AbstractContainerAware
 	private function createAssetDirectory($namespace)
 	{
 		$path = $this->getEntityPath($namespace);
-		
+		$base = str_replace('/' . basename($path), '', $path);
 		// create the directory if it does not exist
-		if(!is_dir($path)) {
+		if(!is_dir($path) && is_dir($base)) {
 			mkdir($path, 0777);
 			chmod($path, 0777);
 		}
@@ -264,5 +264,16 @@ class Wam extends AbstractContainerAware
 
 		return $this->entityPath;
 	}
+
+	/**
+	 * set wamEntityDir
+	 * @param $name string
+	 * @return void
+	 **/
+	public function setWamEntityDir($name)
+	{
+		$this->wamEntityDir = $name;
+	}
+	
 
 }

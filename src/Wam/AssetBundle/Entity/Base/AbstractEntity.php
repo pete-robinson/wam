@@ -101,7 +101,12 @@ abstract class AbstractEntity
 		$web_root = end($results);
 		
 		foreach($this->dirs as $dir) {
+			if(is_array($dir)) {
+				$dir = $dir['path'];
+			}
+
 			$d = str_replace('//', '/', $web_root . '/' . $this->assetDir . '/' . str_replace('{' . $this->primaryField . '}', $this->primaryKey, $dir));
+			
 
 			$this->assets[] = new Directory($d);
 		}
@@ -129,6 +134,29 @@ abstract class AbstractEntity
 	{
 		$this->mapDirectories();
 		return $this->assets;
+	}
+
+	/**
+	 * get sizes and directories
+	 * @return void
+	 **/
+	public function getSizeDirs()
+	{
+		$return = array();
+		$directories = $this->getDirs();
+
+		foreach($this->dirs as $key => $dir) {
+			$i = (is_array($dir)) ? $dir['path'] : $dir;
+
+			if(is_numeric(substr($i, -1))) {
+				$return[basename($i)] = array(
+					'method' => (is_array($dir)) ? $dir['method'] : 'width',
+					'directory' => $directories[$key]
+				);
+			}
+		}
+
+		return $return;
 	}
 	
 	

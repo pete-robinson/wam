@@ -13,4 +13,5 @@
 {{permission}}class {{classname}}{{extends}}{{implements}}
 {
 	{{properties}}
+	
 }

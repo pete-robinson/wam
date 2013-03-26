@@ -85,15 +85,22 @@ class EntityCreator
 		$this->createdEntity = new Entity($this->getEntityName());
 		$this->createdEntity->setDestinationFile($this->getAssetPath())
 			->setExtends('AbstractEntity')
-			->setImplements('AssetDefinition')
 			->addUses('Wam\AssetBundle\Entity\Base\AbstractEntity')
-			->addUses('Wam\AssetBundle\Entity\Base\AssetDefinition')
 			->setPermission('final')
 			->addProperty(new Property('protected', 'dirs', $this->dirs))
 			->compile();
 		
 		$this->createdEntity->save();
 		
+		return $this->createdEntity->getNamespace(true);
+	}
+
+	/**
+	 * get created entity
+	 * @return Wam\AssetBundle\Entity\Base\AbstractEntity
+	 **/
+	public function getCreatedEntity()
+	{
 		return $this->createdEntity->getNamespace(true);
 	}
 

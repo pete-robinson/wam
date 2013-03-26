@@ -39,7 +39,6 @@ class EntityTest extends WamTestCase
 
 		$wam->create();
 		
-		$this->assertInstanceOf('Wam\AssetBundle\Entity\Base\AssetDefinition', $wam);
 		$this->assertInstanceOf('Wam\AssetBundle\Entity\Base\AbstractEntity', $wam);
 	}
 
@@ -103,15 +102,6 @@ class EntityTest extends WamTestCase
 	{
 		$entity = $this->getStdEntity(false);
 		$this->assertFalse($entity->autoGenerateNamespace());
-	}
-
-	/**
-	 * test get dirs
-	 * @return void
-	 **/
-	public function testGetDirectories()
-	{
-
 	}
 	
 	

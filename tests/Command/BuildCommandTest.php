@@ -43,6 +43,20 @@ class BuildCommandTest extends WamTestCase
 	}
 
 	/**
+	 * Test Exception Thrown if passed an invalid path
+	 * @return void
+	 **/
+	public function testExceptionThrownIfPassedAnInvalidPath()
+	{
+		$this->setExpectedException('Wam\AssetBundle\Exception\WamException');
+		
+		$wam = $this->container->get('wam');
+		$wam->setWamEntityDir('test/testes/tests');
+
+		$wam->create($this->getEntityNamespace());
+	}
+
+	/**
 	 * Text Execute
 	 * @return void
 	 **/
