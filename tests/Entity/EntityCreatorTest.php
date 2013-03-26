@@ -112,7 +112,6 @@ class EntityCreatorTest extends WamTestCase
 
 		foreach($sizes as $key => $size) {
 			$this->assertInternalType('integer', $key);
-			$this->assertTrue(array_key_exists('method', $size));
 			$this->assertTrue(array_key_exists('directory', $size));
 			$this->assertInstanceOf('Wam\AssetBundle\Asset\Directory\Directory', $size['directory']);
 		}
@@ -127,6 +126,20 @@ class EntityCreatorTest extends WamTestCase
 		$ec = $this->getEntityCreator();
 		$this->assertEquals('Acme\TestBundle\WamEntity\Product', $ec->getCreatedEntity());
 	}
+
+	/**
+	 * test add interface to entity
+	 * @return void
+	 **/
+	public function testAddInterfaceToEntity()
+	{
+		$entity = new Wam\AssetBundle\Entity\Entity('test');
+		$entity->setImplements('Acme\TestBundle\TestClass');
+		$entity->compile();
+
+		$this->assertContains('implements Acme\TestBundle\TestClass', $entity->getClassString());
+	}
+	
 	
 	
 

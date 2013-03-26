@@ -149,10 +149,16 @@ abstract class AbstractEntity
 			$i = (is_array($dir)) ? $dir['path'] : $dir;
 
 			if(is_numeric(substr($i, -1))) {
-				$return[basename($i)] = array(
-					'method' => (is_array($dir)) ? $dir['method'] : 'width',
-					'directory' => $directories[$key]
-				);
+				$return[basename($i)] = array();
+
+				$return[basename($i)]['directory'] = $directories[$key];
+				if(is_array($dir)) {
+					foreach($dir as $key => $item) {
+						if($key != 'path') {
+							$return[basename($i)][$key] = $item;
+						}
+					}
+				}
 			}
 		}
 
