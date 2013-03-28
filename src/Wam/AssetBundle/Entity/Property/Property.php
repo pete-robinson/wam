@@ -231,6 +231,7 @@ class Property
 			$arr = array(
 				'path' => $item,
 				'width' => basename($item),
+				'height' => '0',
 				'method' => 'width'
 			);
 			$item = $arr;
