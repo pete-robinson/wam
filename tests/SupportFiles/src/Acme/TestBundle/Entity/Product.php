@@ -58,7 +58,14 @@ class Product
 			'width' => '200',
 			'height' => '150'
 		),
+		array(
+			'path' => 'products/{id}/images/400'
+		),
 		'products/{id}/images/800',
+		array(
+			'path' => 'products/{id}/images/1000',
+			'method' => 'square'
+		),
 		'products/{id}/documents'
 	);
 

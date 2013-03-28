@@ -212,14 +212,15 @@ class Property
 				case 'width':
 					if(!array_key_exists('width', $item)) {
 						$item['width'] = basename($item['path']);
-						$item['height'] = (array_key_exists('height', $item)) ? $item['height'] : 0;
 					}
+
+					$item['height'] = (array_key_exists('height', $item)) ? $item['height'] : 0;
 					break;
 				case 'height':
 					if(!array_key_exists('height', $item)) {
 						$item['height'] = basename($item['path']);
-						$item['width'] = (array_key_exists('width', $item)) ? $item['width'] : 0;
 					}
+					$item['width'] = (array_key_exists('width', $item)) ? $item['width'] : 0;
 					break;
 				case 'square':
 					$item['width'] = basename($item['path']);

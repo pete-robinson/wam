@@ -32,9 +32,21 @@ final class Product extends AbstractEntity
 			'method' => 'width'
 		),
 		array(
+			'path' => 'products/{id}/images/400',
+			'method' => 'width',
+			'width' => '400',
+			'height' => '0'
+		),
+		array(
 			'path' => 'products/{id}/images/800',
 			'width' => '800',
 			'method' => 'width'
+		),
+		array(
+			'path' => 'products/{id}/images/1000',
+			'method' => 'square',
+			'width' => '1000',
+			'height' => '1000'
 		),
 		'products/{id}/documents'
 	);
