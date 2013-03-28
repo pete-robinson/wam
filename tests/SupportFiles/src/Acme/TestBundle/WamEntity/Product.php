@@ -21,14 +21,21 @@ final class Product extends AbstractEntity
 		'products/{id}/images',
 		array(
 			'path' => 'products/{id}/images/100',
-			'method' => 'height'
+			'method' => 'height',
+			'height' => '100',
+			'width' => '0'
 		),
 		array(
 			'path' => 'products/{id}/images/200',
 			'width' => '200',
-			'height' => '150'
+			'height' => '150',
+			'method' => 'width'
 		),
-		'products/{id}/images/800',
+		array(
+			'path' => 'products/{id}/images/800',
+			'width' => '800',
+			'method' => 'width'
+		),
 		'products/{id}/documents'
 	);
 

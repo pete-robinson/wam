@@ -150,9 +150,13 @@ class Property
 
 			foreach($values as $k => $item) {
 				if(is_array($item)) {
-					$string .= $this->arrayAsString($item);
+					$string .= $this->itemToString($item);
 				} else {
-					$string .= "\t\t'" . $item . "'";
+					if(is_numeric(basename($item))) {
+						$string .= $this->itemToString($item) . "";
+					} else {
+						$string .= "\t\t'" . $item . "'";
+					}
 				}
 
 				$string .= (isset($values[$k+1])) ? ",\n" : "\n";
@@ -169,12 +173,14 @@ class Property
 	}
 
 	/**
-	 * converts a property array into a string
-	 * @param array $item
+	 * converts a property into a string of values
+	 * @param mixed $item
 	 * @return string
 	 **/
-	private function arrayAsString(array $item)
+	private function itemToString($item)
 	{
+		$item = $this->formatItem($item);
+
 		$string = "\t\tarray(\n";
 		end($item);
 		$end = key($item);
@@ -189,6 +195,49 @@ class Property
 
 		return $string;
 	}
+
+	/**
+	 * format item
+	 * @param mixed $item
+	 * @return array
+	 **/
+	private function formatItem($item)
+	{
+		if(is_array($item)) {
+			$method = (array_key_exists('method', $item)) ? $item['method'] : 'width';
+		
+			$item['method'] = $method;
+
+			switch($method) {
+				case 'width':
+					if(!array_key_exists('width', $item)) {
+						$item['width'] = basename($item['path']);
+						$item['height'] = (array_key_exists('height', $item)) ? $item['height'] : 0;
+					}
+					break;
+				case 'height':
+					if(!array_key_exists('height', $item)) {
+						$item['height'] = basename($item['path']);
+						$item['width'] = (array_key_exists('width', $item)) ? $item['width'] : 0;
+					}
+					break;
+				case 'square':
+					$item['width'] = basename($item['path']);
+					$item['height'] = basename($item['path']);
+					break;
+			}
+		} else {
+			$arr = array(
+				'path' => $item,
+				'width' => basename($item),
+				'method' => 'width'
+			);
+			$item = $arr;
+		}
+
+		return $item;
+	}
+	
 	
 
 }
